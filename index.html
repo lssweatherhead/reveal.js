@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>reveal.js</title>
+		<title>Getting started with React & Typescript</title>
 
 		<link rel="stylesheet" href="css/reveal.css">
 		<link rel="stylesheet" href="css/theme/custom.css">
@@ -25,54 +25,91 @@
 		<div class="reveal">
 			<div class="slides">
 				<section>
-					<h2>Getting started with React & Typescript</h2>			
+					<h2>Getting started with React & Typescript</h2>
 					<p>Let's all go on holiday.</p>
 				</section>
 				<!-- <section data-background="https://media.giphy.com/media/xUPGclJ5wKOJmENxcs/giphy.gif">
 				</section> -->
-				<section data-markdown>
-					## The plan
-					- make a component
-					- pass it some props
-					- modify the state
-					- hook up some functionality
-					- jet off into the sunset :-D
+				<section data-background-iframe="https://drive.google.com/file/d/1AupckcwL4ZJtCbv-0j6xF8mt9gfOnteD/preview">
 				</section>
 				<section data-markdown>
-					## Roast me
-				</section>
-				<section data-markdown>
-					## So why is it good?
-
-					- allows people to show things not finished or working
-					- is designed to be a "safe space"
-					- doesn't need to be useful! get creative :)
-					- doesn't need to be code or a jist, could just be an idea or a series of thoughts
-					- highlight is not so much on "being awesome" as it is on learning and pushing forwards/persevering
-					- low bar to entry
-					- encourages creativity
-					- when people are able to explore/create anything will get a greater variety of ideas (genetic algorithms - fake optimisation)
-				</section>
-				<section data-markdown>
-					## So why is it hard?
-
-					- perfectionism
-					- inner critic
-					- feeling like there's no niche or nothing that's going to be helpful
-					- lack of creativity
-					- lack of confidence
-					- low self-esteem
-					- fear of judgement
-					- fear of failure
-					- fear of silence!
-					- no time to create
-					- no-one to create with
-					- no foothold within the community
+					<textarea data-template>
+						## The plan
+						- Components: the building blocks of React
+						- Props & State: keeping track of what's happening
+						- Using Typescript: the advantages of strongly typed objects
+						- Interactivity and raising events
+						- Conditional rendering
+						- Lists and keys
+					</textarea>
 				</section>
 				<section>
-					<h2>failure is temporary, success is forever.</h2>
-					<p>Umbraco already have a unique, friendly community spirit, so why not use to foster creativity everywhere?</p>
+					<img src="http://tutorials.lauraweatherhead.co.uk/images/app_overview.PNG" />
+					<aside class="notes" data-markdown>
+						- Components can usually be derived from design, but are generally based upon a sense of "code responsibility"
+						- Ideally we want them to be reusable
+						- If we didn't have components, React life would be scary and messy
+					</aside>
 				</section>
+				<section>					
+					<section data-markdown>
+						<textarea data-template>
+							### The location component
+							```typescript
+							interface IProps {
+								name: string
+							} 
+
+							interface IState { }
+
+							class PackLocation extends React.Component<IProps, IState> {
+								render() {
+									return (
+										<div>{this.props.name}</div>
+									);
+								}
+							}
+							```
+
+							But how do we pass that property in from the Home component?
+						</textarea>
+					</section>
+				</section>
+				<section>
+					<p>We need to add the name property to the tag where we are calling our component</p>
+					<img src="http://tutorials.lauraweatherhead.co.uk/images/component_props.PNG" />
+					<p>The parent component is responsible for initialising and updating props that it passes to child components - usually from its own State</p>
+					<aside class="notes" data-markdown>
+						- Props are passed into the component from a parent component. State is set locally. If the name property was being set in the IState here, then we would need to give it an initial value within the component constructor.
+						- There are two interfaces - IProps and IState (note the prefixed "I" indicating they are Typescript interfaces)
+						- Both interfaces can be passed into the React Component declaration, and allow us to define what inputs the Component is expecting when it is rendered within other Components
+					</aside>
+				</section>
+				<section data-background-iframe="http://tutorials.lauraweatherhead.co.uk/react-typescript/step-1/">
+				</section>
+				<section>
+					<h3>Why should we use Typescript?</h3>
+					<ul>
+						<li>Rely more upon your tools</li>
+						<li>Make your code easier to maintain</li>
+						<li>Pushes for earlier clarification of purpose</li>
+					</ul>
+
+					<aside class="notes" data-markdown>
+						- intellisense
+						- picking up old code or other people's code means you have a better shot at inferring logic and hierarchy when strongly typed objects and methods are being passed around
+						- the act of defining types for your code automatically means you question your path - is this object going to change, grow? Can it be reused? Will multiple objects share a core set of properties?
+						- But what does "using typescript" actually mean?
+					</aside>
+				</section>
+				<section data-markdown>
+					### Why should we use Typescript?
+					- Rely more upon your tools
+					- Make your code easier to maintain
+					- Pushes for earlier clarification of purpose
+				</section>
+
+
 				<section data-background="https://media.giphy.com/media/JQNM4AgN7lFUA/giphy.gif">
 				</section>
 			</div>
