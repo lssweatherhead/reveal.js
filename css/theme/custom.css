@@ -9,7 +9,18 @@
  * For other themes, change $codeBackground accordingly.
  *
  */
-@import url(https://fonts.googleapis.com/css?family=Aleo|Montserrat);
+@font-face {
+  font-family: "RobotoRegular";
+  src: url("/fonts/Roboto/Roboto-Regular.ttf"); }
+
+@font-face {
+  font-family: "Roboto";
+  src: url("/fonts/Roboto/Roboto-Light.ttf"); }
+
+@font-face {
+  font-family: "Raleway";
+  src: url("/fonts/Raleway/Raleway-Regular.ttf"); }
+
 /*********************************************
  * GLOBAL STYLES
  *********************************************/
@@ -18,19 +29,19 @@ body {
   background-color: #222; }
 
 .reveal {
-  font-family: Montserrat, "sans-serif";
-  font-size: 35px;
+  font-family: Roboto, "sans-serif";
+  font-size: 40px;
   font-weight: normal;
   color: #eee; }
 
 ::selection {
   color: #fff;
-  background: #ffc643;
+  background: #fcd702;
   text-shadow: none; }
 
 ::-moz-selection {
   color: #fff;
-  background: #ffc643;
+  background: #fcd702;
   text-shadow: none; }
 
 .reveal .slides section,
@@ -49,7 +60,7 @@ body {
 .reveal h6 {
   margin: 0 0 20px 0;
   color: #eee;
-  font-family: Aleo, "sans-serif";
+  font-family: Roboto, "sans-serif";
   font-weight: normal;
   line-height: 1.2;
   letter-spacing: normal;
@@ -212,20 +223,20 @@ body {
  * LINKS
  *********************************************/
 .reveal a {
-  color: #ffc643;
+  color: #fcd702;
   text-decoration: none;
   -webkit-transition: color .15s ease;
   -moz-transition: color .15s ease;
   transition: color .15s ease; }
 
 .reveal a:hover {
-  color: #e69500;
+  color: #fee766;
   text-shadow: none;
   border: none; }
 
 .reveal .roll span:after {
   color: #fff;
-  background: #6a1520; }
+  background: #b09601; }
 
 /*********************************************
  * IMAGES
@@ -247,21 +258,21 @@ body {
 
 .reveal a:hover img {
   background: rgba(255, 255, 255, 0.2);
-  border-color: #ffc643;
+  border-color: #fcd702;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.55); }
 
 /*********************************************
  * NAVIGATION CONTROLS
  *********************************************/
 .reveal .controls {
-  color: #ffc643; }
+  color: #fcd702; }
 
 /*********************************************
  * PROGRESS BAR
  *********************************************/
 .reveal .progress {
   background: rgba(0, 0, 0, 0.2);
-  color: #ffc643; }
+  color: #fcd702; }
 
 .reveal .progress span {
   -webkit-transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985);
@@ -290,3 +301,20 @@ body {
 .reveal .super-up {
   font-weight: bold;
   color: green; }
+
+.reveal .author, .reveal .job-title {
+  text-transform: uppercase; }
+
+.reveal .author {
+  font-family: RobotoRegular;
+  padding-top: 40px;
+  margin-bottom: 0;
+  letter-spacing: 3px;
+  font-size: 0.7em;
+  font-weight: bold; }
+
+.reveal .job-title {
+  margin-top: 0;
+  font-size: 0.5em;
+  letter-spacing: 2px;
+  font-weight: normal; }

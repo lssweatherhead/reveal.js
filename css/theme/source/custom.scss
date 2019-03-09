@@ -16,22 +16,32 @@
  // ---------------------------------------------
  
  // Include theme-specific fonts
- 
- @import url(https://fonts.googleapis.com/css?family=Aleo|Montserrat);
+@font-face {
+    font-family: "RobotoRegular";
+    src:url("/fonts/Roboto/Roboto-Regular.ttf");
+}
+@font-face {
+    font-family: "Roboto";
+    src:url("/fonts/Roboto/Roboto-Light.ttf");
+}
+@font-face {
+    font-family: "Raleway";
+    src:url("/fonts/Raleway/Raleway-Regular.ttf");
+}
  
  // Colors used in the theme
- $blood: #a23;
+ $blood: #fcd702;
  $coal: #222;
  $codeBackground: #23241f;
  
  $backgroundColor: $coal;
  
  // Main text
- $mainFont: Montserrat, 'sans-serif';
+ $mainFont: Roboto, 'sans-serif';
  $mainColor: #eee;
  
  // Headings
- $headingFont: Aleo, 'sans-serif';
+ $headingFont: Roboto, 'sans-serif';
  $headingTextShadow: 2px 2px 2px $coal;
  
  // h1 shadow, borrowed humbly from 
@@ -81,5 +91,25 @@
      .super-up {
         font-weight: bold;
         color: green;
+     }
+
+     .author, .job-title {
+         text-transform: uppercase;
+     }
+
+     .author {
+         font-family: RobotoRegular;
+        padding-top: 40px;
+        margin-bottom: 0;
+        letter-spacing: 3px;
+        font-size: 0.7em;
+        font-weight: bold;
+     }
+
+     .job-title {
+        margin-top: 0;
+        font-size: 0.5em;
+        letter-spacing: 2px;
+        font-weight: normal;
      }
  }
