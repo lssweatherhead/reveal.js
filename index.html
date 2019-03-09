@@ -5,6 +5,8 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 		<title>Getting started with React & Typescript</title>
+		<meta name="description" content="Learning the basics of React & Typescript by building a simple application">
+		<meta name="author" content="Laura Weatherhead">
 
 		<link rel="stylesheet" href="css/reveal.css">
 		<link rel="stylesheet" href="css/theme/custom.css">
@@ -28,89 +30,436 @@
 					<h2>Getting started with React & Typescript</h2>
 					<p>Let's all go on holiday.</p>
 				</section>
-				<!-- <section data-background="https://media.giphy.com/media/xUPGclJ5wKOJmENxcs/giphy.gif">
-				</section> -->
-				<section data-background-iframe="https://drive.google.com/file/d/1AupckcwL4ZJtCbv-0j6xF8mt9gfOnteD/preview">
-				</section>
-				<section data-markdown>
-					<textarea data-template>
-						## The plan
-						- Components: the building blocks of React
-						- Props & State: keeping track of what's happening
-						- Using Typescript: the advantages of strongly typed objects
-						- Interactivity and raising events
-						- Conditional rendering
-						- Lists and keys
-					</textarea>
-				</section>
 				<section>
-					<img src="http://tutorials.lauraweatherhead.co.uk/images/app_overview.PNG" />
+					<h3>The plan</h3>
+					<p>We are going to cover the following areas using the <a href="http://tutorials.lauraweatherhead.co.uk/react-typescript/step-6/" target="_blank">Pack It app</a> as a resource.</p>
+					<hr />
+					<ul>
+						<li>Components: the building blocks of React</li>
+						<li>Props & State: keeping track of what's happening</li>
+						<li>Using Typescript: the advantages of strongly typed objects</li>
+						<li>Interactivity and raising events</li>
+						<li>Conditional rendering</li>
+						<li>Lists and keys</li>
+					</ul>
+					<p>Questions? <a href="https://twitter.com/lssweatherhead">
+						<img src="/images/twitter.png" height="40" width="40" style="margin:0;border:0;padding-left:10px;background:none;" /> @lssweatherhead #ReactTS</a>
+					</p>
 					<aside class="notes" data-markdown>
-						- Components can usually be derived from design, but are generally based upon a sense of "code responsibility"
-						- Ideally we want them to be reusable
-						- If we didn't have components, React life would be scary and messy
+						- Using create-react-app configured with Typescript and Sass (there is more information on this on the tutorial site)
+						- Not going to be covering project bootstrapping, or getting into a religious debate about js task runners
+						- Not getting into data gathering: async calls or promises 
 					</aside>
-				</section>
-				<section>					
-					<section data-markdown>
-						<textarea data-template>
-							### The location component
-							```typescript
-							interface IProps {
-								name: string
-							} 
+				</section>				
+				<section>
+					<section>
+						<h3>Components and Props</h3>
+						<img src="http://tutorials.lauraweatherhead.co.uk/images/app_overview.PNG" />
+						<aside class="notes" data-markdown>
+							- Components can usually be derived from design, but are generally based upon a sense of "code responsibility"
+							- Ideally we want them to be reusable
+							- If we didn't have components, React life would be scary and messy
+						</aside>
+					</section>		
+					<section>
+						<h3>The location component</h3>
+						<pre><code>
+interface IProps {
+	name: string
+} 
 
-							interface IState { }
+interface IState { }
 
-							class PackLocation extends React.Component<IProps, IState> {
-								render() {
-									return (
-										<div>{this.props.name}</div>
-									);
-								}
-							}
-							```
+class PackLocation extends React.Component< IProps, IState> {
+	render() {
+		return (
+			< div>{this.props.name}< /div>
+		);
+	}
+}
+					</code></pre>
 
-							But how do we pass that property in from the Home component?
-						</textarea>
+						<p>But how do we pass that property in from the Home component?</p>
+						<aside class="notes" data-markdown>
+							- Props are passed into the component from a parent component. State is set locally. If the name property was being set in the IState here, then we would need to give it an initial value within the component constructor.
+							- There are two interfaces - IProps and IState (note the prefixed "I" indicating they are Typescript interfaces)
+							- Both interfaces can be passed into the React Component declaration, and allow us to define what inputs the Component is expecting when it is rendered within other Components
+							- Not going to talk about passing props back to parent components just now
+						</aside>
+					</section>
+					<section>
+						<h3>The PackLocation component tag</h3>
+						<img src="http://tutorials.lauraweatherhead.co.uk/images/component_props.PNG" />
+						<p>The parent component is responsible for initialising and updating props that it passes to child components - usually from its own State</p>
+						<aside class="notes" data-markdown>
+							- If we wanted to let a child component update props (and potentially a parent or ancestor state) then we would also need a function to pass down
+						</aside>
 					</section>
 				</section>
+
 				<section>
-					<p>We need to add the name property to the tag where we are calling our component</p>
-					<img src="http://tutorials.lauraweatherhead.co.uk/images/component_props.PNG" />
-					<p>The parent component is responsible for initialising and updating props that it passes to child components - usually from its own State</p>
-					<aside class="notes" data-markdown>
-						- Props are passed into the component from a parent component. State is set locally. If the name property was being set in the IState here, then we would need to give it an initial value within the component constructor.
-						- There are two interfaces - IProps and IState (note the prefixed "I" indicating they are Typescript interfaces)
-						- Both interfaces can be passed into the React Component declaration, and allow us to define what inputs the Component is expecting when it is rendered within other Components
-					</aside>
+					<section>
+						<h3>Why should we use Typescript?</h3>
+						<ul>
+							<li>Rely more upon your tools</li>
+							<li>Make your code easier to maintain</li>
+							<li>Pushes for earlier clarification of purpose</li>
+						</ul>
+
+						<aside class="notes" data-markdown>
+							- Intellisense: let VS Code help you 
+							- Picking up old code or other people's code means you have a better shot at inferring logic and hierarchy when strongly typed objects and methods are being passed around
+							- The act of defining types for your code automatically means you question your path - is this object going to change, grow? Can it be reused? Will multiple objects share a core set of properties?
+							- But what does "using typescript" actually mean?
+						</aside>
+					</section>
+					<section data-markdown>
+						### Creating a Typescript model
+						```typescript
+						export interface IPotentialPlace {
+							name: string;
+						}
+						
+						export class PotentialPlace implements IPotentialPlace {
+						
+							constructor(
+								public name: string
+							) { }
+						}
+						```
+					</section>
+					<section data-markdown>
+						### Using a Typescript model
+						```typescript
+						interface IProps {
+							location: IPotentialPlace
+						} 
+						
+						interface IState { }
+	
+						class PackLocation extends Component< IProps, IState> {
+							render() {
+								return (
+									< div>{this.props.location.name}< /div>
+								);
+							}
+						}
+						```
+	
+						But how do we pass the props now?
+						```
+						< PackLocation location={new PotentialPlace("Location name")} />
+						```
+					</section>
 				</section>
-				<section data-background-iframe="http://tutorials.lauraweatherhead.co.uk/react-typescript/step-1/">
-				</section>
+
 				<section>
-					<h3>Why should we use Typescript?</h3>
-					<ul>
-						<li>Rely more upon your tools</li>
-						<li>Make your code easier to maintain</li>
-						<li>Pushes for earlier clarification of purpose</li>
-					</ul>
+					<section>
+						<h3>State</h3>
 
-					<aside class="notes" data-markdown>
-						- intellisense
-						- picking up old code or other people's code means you have a better shot at inferring logic and hierarchy when strongly typed objects and methods are being passed around
-						- the act of defining types for your code automatically means you question your path - is this object going to change, grow? Can it be reused? Will multiple objects share a core set of properties?
-						- But what does "using typescript" actually mean?
-					</aside>
+						<pre><code>
+interface IState {
+	numberOfPeople: number;
+}
+
+class Home extends React.Component< IProps, IState> {
+	constructor(props: IProps) {
+		super(props);
+		this.state = {
+			numberOfPeople: 0
+		};
+	}
+}
+						</code></pre>
+
+						<p>Note the assigning of state - this is the only place you can do it like this</p>
+
+						<aside class="notes" data-markdown>
+							- Tells our component to keep track of a number property "numberOfPeople"
+							- Loads props into the constructor - class components should always call the base ctor with props
+							- Initialises the state values
+						</aside>
+					</section>
+					<section>
+						<h3>Updating the user interface</h3>
+						
+						<img src="http://tutorials.lauraweatherhead.co.uk/images/conditional_inputs.PNG" />
+						<p>On click, we want to call a function that will pass the input value as a property.</p>
+						<pre><code>onClick={e => this.updateNumberPeople(e, x)}</code></pre>
+					</section>
+					<section>
+						<h3>Updating State</h3>
+						<p>Now the function can update the encapsulated state with the passed value</p>
+						<p>This will prompt the component view to re-render</p>
+						<pre><code class="typescript">
+updateNumberPeople = 
+	(event: React.MouseEvent< HTMLAnchorElement>, numberPeople: number) => {
+		event.preventDefault();
+		this.setState({
+			numberOfPeople: numberPeople
+		});
+	}
+</code></pre>
+
+						<aside class="notes" data-markdown>
+							- setState({...}) function:
+								- Calls the render method to update the view
+								- Cannot modify directly! e.g. cannot do this.state.numberOfPeople = 10 as will not re-render
+								- setState() may be updated asynchronously so cannot always rely on the values during state updates
+								- Only updates specified parameters: will leave all others intact
+						</aside>
+					</section>
+												
 				</section>
-				<section data-markdown>
-					### Why should we use Typescript?
-					- Rely more upon your tools
-					- Make your code easier to maintain
-					- Pushes for earlier clarification of purpose
+
+				<section>
+					<section>
+						<h3>Component lifecycle</h3>
+						<p>Commonly used lifecycle methods include:</p>
+						<pre><code>componentDidMount()</code></pre>
+						<pre><code>componentDidUpdate(prevProps, prevState)</code></pre>
+						<pre><code>componentWillUnmount()</code></pre>
+						<aside class="notes" data-markdown>
+							- componentDidMount(): 
+								- This is a function that is called once, when the component is first loaded into the view.
+								- It is a good place to load in readonly data from APIs such as the values of dropdown lists or sorting options.
+							- componentDidUpdate(prevProps, prevState)
+								- This is called when the state or props for the component updates (and the component is going to re-render in the view)
+							- componentWillUnmount()
+								- Called when component is destroyed or removed from view
+								- Could be used for analytics or page transitions or garbage collection
+						</aside>
+					</section>
+					<section>
+						<h4>e.g. hooking into componentDidUpdate()</h4>
+						<pre><code>
+componentDidUpdate(prevProps: any, prevState: IState) {
+	console.log(
+		"Used to have: " + prevState.numberOfPeople + 
+		" people, but now have: " + this.state.numberOfPeople + 
+		" people");
+}</code></pre>
+						<img src="http://tutorials.lauraweatherhead.co.uk/images/component_didupdate.PNG" />
+					</section>
+					<section data-background="#efefef" data-background-iframe="http://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/">
+					</section>
 				</section>
 
+				<section>
+					<section>
+						<h3>Forms and Events</h3>
+						<p>There are three basic ingredients for form input:</p>
+						<ul>
+							<li>State property</li>
+							<li>Input mark-up which links the property to an event handler</li>
+							<li>Event handler to set the component state</li>
+						</ul>
+						<aside class="notes" data-markdown>
+							- `onChange` event handlers for text inputs are called on every keystroke, so they are used to keep the state up to date
+							- if there's no onChange handler, then you will see a warning in the console prompting you to either add one or make the property readonly
+						</aside>
+					</section>
+					<section data-markdown>
+						- State property = `{ destination: string }`
+						- Input mark-up 
+						```< input type="text"
+							value={this.state.destination}
+							onChange={this.handleDestinationChange} />```
 
-				<section data-background="https://media.giphy.com/media/JQNM4AgN7lFUA/giphy.gif">
+						- Event handler
+
+						```
+						handleDestinationChange = (event: React.ChangeEvent< HTMLInputElement>) => {
+							this.setState({							
+								destination: event.target.value							
+							});							
+						}
+						```
+					</section>
+					<section>
+						<h3>Typescript is demanding</h3>
+						<p>Typescript wants you to type everything, even when the parameter is raised by React itself.</p>
+						<p>This can be frustrating, but let the tools help you!</p>
+						<img src="http://tutorials.lauraweatherhead.co.uk/images/react_events.PNG" />
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h3>Conditional rendering</h3>
+						<p>A few different options...</p>
+						<ul>
+							<li>Using an element variable</li>
+							<li>Inline <em>if</em></li>
+							<li>Inline <em>if-else</em></li>
+							<li>Dynamic classes</li>
+						</ul>
+					</section>
+					<section data-markdown>
+						#### Option 1: using an element variable
+
+						```javascript
+						render() {
+							const hasSelectedPeople = this.state.numberOfPeople !== 0;
+							let searchSummary;
+							if (hasSelectedPeople) {
+								searchSummary = 
+								< p>
+									There are {this.state.numberOfPeople} people going on your trip!
+								< /p>
+							} else {	 
+								searchSummary = < p>How many people are you taking with you?< /p>
+							}
+							...
+							return (
+								{searchSummary}
+							);
+						}
+						```
+					</section>
+					<section data-markdown>
+						### Options 2 & 3: Inline conditionals
+
+						```
+						{ this.state.numberOfPeople <= 4 &&
+							< PackLocation location={new PotentialPlace("Location", 4)} />
+						}
+						```
+
+						```
+						{ this.state.numberOfPeople <= 4 ?
+							< PackLocation location={new PotentialPlace("Location", 4)} /> :
+							null
+						}
+						```
+
+						Returning null does not affect the firing of the component lifecycle (i.e. componentDidUpdate will still be called)
+					</section>
+					<section data-markdown>
+						### Option 4: Dynamic classes
+
+						```
+						className={"button is-primary " + 
+							(this.state.numberOfPeople === 1 ? "" : "is-outlined")}
+						```
+
+						Need to wrap the whole className declaration in curly braces for this to work!
+					</section>
+				</section>
+				
+				<section>
+					<section>
+						<h3>Lists & keys</h3>
+
+						<p>Know your array map() method!</p>
+						<p>From MDN Web: </p>
+						<blockquote>the map() method creates a new array with the results of calling a provided function on every element in the calling array</blockquote>
+						<p>We use this in React to map a object data array to an array of elements that React can render out</p>
+
+						<aside class="notes" data-markdown>
+							- For our sample app we are going to be loading data in from a json file - just a list of location objects
+							- In a real world scenario you'd be getting this from an API (usually)
+						</aside>
+					</section>
+					<section data-markdown>
+						### Getting our strongly typed data arrays
+
+						```typescript
+						componentDidMount() {
+							var mappedLocations: IPotentialPlace[] = []
+							data.locations.map((loc, idx) => {
+								mappedLocations.push(
+									new PotentialPlace(
+										loc.id,
+										loc.name, 
+										loc.description, 
+										loc.image, 
+										loc.maxOccupancy, 
+										loc.location));
+							});
+							this.setState({
+								places: mappedLocations,
+								filteredPlaces: mappedLocations
+							});
+						}
+						```
+					</section>
+					<section data-markdown>
+						### Rendering our arrays
+
+						```html
+						< div className="columns is-multiline">
+							{this.state.filteredPlaces.map((place, idx) => 
+								< PackLocation key={place.id} location={place} />
+							)}						 
+						< /div>
+						```
+
+						`map()` function to the rescue!
+					</section>
+					<section>
+						<h3>Keys</h3>
+						<ul>
+							<li>Keys serve as React's way of uniquely identifying an element when it is being created dynamically</li>
+							<li>Has to be unique (array indexes are unique, but using these as keys is considered to be an anti-pattern)</li>
+							<li>Keys only have to be unique amongst siblings</li>
+							<li>
+								<p>No key?</p>
+								<img src="http://tutorials.lauraweatherhead.co.uk/images/nokey.PNG" />
+							</li>
+						</ul>
+						<aside class="notes" data-markdown>
+							- If you declare no keys, then React will re-render all of the components in the array (performance hit!)
+							- If you use indexes as keys and you insert an element in the middle, React will get confused with duplicate keys and re-render all of the following elements (performance hit!)
+						</aside>
+					</section>
+					<section>
+						<h3>Bonus round: filtering on state changes</h3>
+						<p>We have 2 methods that fire when the user interacts with the UI:</p>
+						<ul>
+							<li>updateNumberPeople()</li>
+							<li>handleDestinationChange()</li>
+						</ul>
+						<p>Let's make use of the setState() callback to propagate these state changes and filter the places displayed...</p>
+					</section>
+					<section>
+						<h3>Bonus round (part 2): filtering on state changes</h3>
+						<pre><code>
+handleDestinationChange = (event: React.ChangeEvent< HTMLInputElement>) => {
+	this.setState({	
+		destination: event.target.value
+	}, () => {	
+		this.filterPlaces();	
+	});	
+}</code></pre>
+<pre><code>
+filterPlaces = () => {
+	var places = this.state.places.filter(place => {	
+		// return if this.state.numberOfPeople <= place.maxOccupancy
+		// and if place.location contains this.state.destination
+	});
+
+	this.setState({
+		filteredPlaces: places
+	});
+}
+</code></pre>
+					</section>
+				</section>
+
+				<section>
+					<h3>Aaaand we're done! (for now)</h3>
+					<p>For all tutorial content, notes, slides & github link: <a href="http://tutorials.lauraweatherhead.co.uk/react-typescript/">tutorials.lauraweatherhead.co.uk/react-typescript</a></p>
+					<p>Questions? Tweet me at <a href="https://twitter.com/lssweatherhead">
+						<img src="/images/twitter.png" height="40" width="40" style="margin:0;border:0;padding-left:10px;background:none;" /> lssweatherhead</a>
+					</p>
+					<div>
+						<a href="https://this.isfluent.com/">
+							<img class="icon" alt="Icon" src="/images/fluent-icon.png" height="40" width="40" style="margin:0;border:0;padding-left:10px;background:none;" />
+							<span>this.isfluent.com</span>
+						</a>
+					</div>
+					<img src="https://media.giphy.com/media/tIeCLkB8geYtW/giphy.gif" />
 				</section>
 			</div>
 		</div>
@@ -130,6 +479,53 @@
 					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
 				]
 			});
+		</script>
+
+		<style type="text/css">
+			/* 1. Style header/footer <div> so they are positioned as desired. */
+			#header-left {
+				position: absolute;
+				top: 0%;
+				left: 0%;
+			}
+			#header-left .logo {
+				padding: 20px;
+				display: inline-flex;
+			}
+			#header-left .logo .icon {
+				max-height: 70px;
+				align-self: center;
+			}
+			#header-left .logo .company {
+				max-height: 80px;
+				align-self: center;
+			}
+		</style>
+
+		<!-- 2. Create hidden header/footer <div> -->
+		<div id="hidden" style="display:none;">
+			<div id="header">
+				<div id="header-left">
+					<div class="logo">
+						<img class="icon" alt="Icon" src="/images/fluent-icon.png" />
+						<img class="company" alt="Logo" src="/images/fluent-logo-white.png" />
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+		<script type="text/javascript">
+			// 3. On Reveal.js ready event, copy header/footer <div> into each `.slide-background` <div>
+			var header = $('#header').html();
+			if ( window.location.search.match( /print-pdf/gi ) ) {
+				Reveal.addEventListener( 'ready', function( event ) {
+					$('.slide-background').append(header);
+				});
+			}
+			else {
+				$('div.reveal').append(header);
+		}
 		</script>
 	</body>
 </html>
