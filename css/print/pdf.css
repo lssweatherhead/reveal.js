@@ -111,6 +111,7 @@ ul, ol, div, p {
 
 .reveal img {
 	box-shadow: none;
+	max-height: 80%;
 }
 
 .reveal .roll {
@@ -161,4 +162,13 @@ ul, ol, div, p {
 	display: block;
 	position: absolute;
 	font-size: 14px;
+}
+
+.reveal h3 {
+	font-weight: bolder;
+	font-size: 1em;
+}
+
+.reveal section>img {
+	max-height: 500px!important
 }

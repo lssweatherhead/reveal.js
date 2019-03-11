@@ -295,6 +295,9 @@ body {
   display: inline-block;
   border-radius: 7px; }
 
+.reveal .inline-code {
+  font-family: monospace; }
+
 .reveal small code {
   vertical-align: baseline; }
 

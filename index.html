@@ -13,6 +13,7 @@
 
 		<!-- Theme used for syntax highlighting of code -->
 		<link rel="stylesheet" href="lib/css/zenburn.css">
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 
 		<!-- Printing and PDF exports -->
 		<script>
@@ -32,73 +33,356 @@
 					<p class="job-title">Developer, Fluent</p>
 				</section>
 				<section>
-					<h3>The plan</h3>
-					<p>We are going to cover the following areas using the <a href="http://tutorials.lauraweatherhead.co.uk/react-typescript/step-6/" target="_blank">Pack It app</a> as a resource.</p>
+					<h3>The Plan</h3>
 					<hr />
 					<ul>
-						<li>Components: the building blocks of React</li>
-						<li>Props & State: keeping track of what's happening</li>
-						<li>Using Typescript: the advantages of strongly typed objects</li>
-						<li>Interactivity and raising events</li>
-						<li>Conditional rendering</li>
-						<li>Lists and keys</li>
+						<li>Umbraco & GraphQL - What? Why?</li>
+						<li>Once Upon A Plan - Example site & data</li>
+						<li>Inbuilt data type resolution - Related Links</li>
+						<li>Package data type resolution - Terratype</li>
+						<li>Custom data type resolution</li>
 					</ul>
-					<p>Questions? <a href="https://twitter.com/lssweatherhead">
-						<img src="/images/twitter.png" height="40" width="40" style="margin:0;border:0;padding-left:10px;background:none;" /> @lssweatherhead #ReactTS</a>
-					</p>
 					<aside class="notes" data-markdown>
-						- Using create-react-app configured with Typescript and Sass (there is more information on this on the tutorial site)
-						- Not going to be covering project bootstrapping, or getting into a religious debate about js task runners
-						- Not getting into data gathering: async calls or promises 
+						- There is an assumed base of knowledge of GraphQL (not necessarily hands-on), although I will touch upon the background of it
+
 					</aside>
-				</section>				
+				</section>
+				<!-- Umbraco & GraphQL -->
 				<section>
-					<section>
-						<h3>Components and Props</h3>
-						<img src="http://tutorials.lauraweatherhead.co.uk/images/app_overview.PNG" />
-						<aside class="notes" data-markdown>
-							- Components can usually be derived from design, but are generally based upon a sense of "code responsibility"
-							- Ideally we want them to be reusable
-							- If we didn't have components, React life would be scary and messy
-						</aside>
-					</section>		
-					<section>
-						<h3>The location component</h3>
-						<pre><code>
-interface IProps {
-	name: string
-} 
+					<h3>What is GraphQL and why would we use it?</h3>
+					<hr />
+					<ul>
+						<li>Awesome talk by Pete Duncanson about GraphQL and the community package</li>
+						<li>Shifts the parameter requirements from server side code to the front-end</li>
+						<li>Allows easy access to filtering, sorting, paging etc</li>
+					</ul>
+					<aside class="notes" data-markdown>
+						- Pete memorably offers the comparison that GraphQL is to traditional API calls what music streaming is to mixtapes
+						- Allows the FE dev to define what parameters are required and update/remove them in the FE code without needed to re-write API calls or do a full deployment
+						- For the example website that has been created, I have used the community Our.Umbraco.GraphQL as a base: all credits go to Rasmus J Pederson & the OffRoadCode crew
+					</aside>
+				</section>
 
-interface IState { }
+				<!-- Once Upon a Plan -->
+				<section>
+					<h3><i class="fab fa-readme"></i> Once Upon A Plan</h3>
+					<p>Story planning website</p>
+					<div class="inline-code">
+						<ul>
+							<li><i class="fas fa-book"></i> Book</li>
+							<ul>
+								<li><i class="fas fa-bookmark"></i> Chapter</li>
+								<ul>
+									<li><i class="fas fa-theater-masks"></i> Scene</li>
+									<ul>
+										<li>Characters</li>
+										<li>Locations</li>
+										<li>Related links</li>
+									</ul>
+								</ul>
+							</ul>
+						</ul>
+					</div>
+					<aside class="notes" data-markdown>
+						- [GIMME NOTES]
+					</aside>
+				</section>
+				<section data-background="/images/app_whole.png"></section>
+				<section>
+					<h3>What are we working with?</h3>
+					<img src="/images/content_tree_details.PNG" />
+					<aside class="notes" data-markdown>
+						- [GIMME NOTES]
+					</aside>
+				</section>
+				<section>
+					<h3>The GraphQL Query</h3>
+					<img src="/images/init_query.PNG" />
+					<aside class="notes" data-markdown>
+						- [GIMME NOTES]
+					</aside>
+				</section>
 
-class PackLocation extends React.Component< IProps, IState> {
-	render() {
-		return (
-			< div>{this.props.name}< /div>
-		);
-	}
+				<!-- SCENE CUSTOM DATA -->
+				<section>
+					<h3>Let's look at the Scene doctype</h3>
+					<img src="/images/scene_properties.PNG" />
+				</section>
+				<section>
+					<h3>Scene stored data</h3>
+					<img src="/images/data_customproperties.PNG" />
+				</section>
+				<section>
+					<h3>Scene GraphQL Query</h3>
+					<img src="/images/pre_any-resolver.PNG" />
+				</section>
+				
+				<!-- RELATED LINKS RESOLUTION-->
+				<section>
+					<h3>Resolving Related Links</h3>
+					<pre><code class="csharp" style="font-size: 18px">
+[DefaultGraphQLValueResolver]
+public class RelatedLinksValueResolver : GraphQLValueResolver
+{
+  public override Type GetGraphQLType(PublishedPropertyType type)
+  {
+	return typeof(ListGraphType< RelatedLinksType >);
+  }
+
+  public override bool IsResolver(PublishedPropertyType type)
+  {
+	return type.PropertyEditorAlias == "Umbraco.RelatedLinks2";
+  }
 }
-					</code></pre>
+				</code></pre>
+					<aside class="notes" data-markdown>
+						- [GIMME NOTES]
+					</aside>
+				</section>
+				<section>
+					<h3>Related Links Graph Type</h3>
+					<pre>
+<code class="csharp" style="font-size: 18px">public class RelatedLinksType : ObjectGraphType< RelatedLink >
+{
+  public RelatedLinksType()
+  {
+	Name = "RelatedLinks2";
+	Field< NonNullGraphType< StringGraphType >>(
+	  "title",
+	  resolve: context => context.Source.Caption);
 
-						<p>But how do we pass that property in from the Home component?</p>
-						<aside class="notes" data-markdown>
-							- Props are passed into the component from a parent component. State is set locally. If the name property was being set in the IState here, then we would need to give it an initial value within the component constructor.
-							- There are two interfaces - IProps and IState (note the prefixed "I" indicating they are Typescript interfaces)
-							- Both interfaces can be passed into the React Component declaration, and allow us to define what inputs the Component is expecting when it is rendered within other Components
-							- Not going to talk about passing props back to parent components just now
-						</aside>
-					</section>
-					<section>
-						<h3>The PackLocation component tag</h3>
-						<img src="http://tutorials.lauraweatherhead.co.uk/images/component_props.PNG" />
-						<p>The parent component is responsible for initialising and updating props that it passes to child components - usually from its own State</p>
-						<aside class="notes" data-markdown>
-							- If we wanted to let a child component update props (and potentially a parent or ancestor state) then we would also need a function to pass down
-						</aside>
-					</section>
+	Field< NonNullGraphType< StringGraphType >>(
+	  "link",
+	  resolve: context => context.Source.IsInternal ?
+		context.Source.Content.UrlWithDomain() : context.Source.Link);
+  }
+}</code></pre>
+					<aside class="notes" data-markdown>
+						- [GIMME NOTES]
+					</aside>
+				</section>
+				<section>
+					<h3>Outcome</h3>
+					<img src="/images/post_related-links-resolver.PNG" />
+					<aside class="notes" data-markdown>
+						- [GIMME NOTES]
+					</aside>
+				</section>
+
+				<!-- TERRATYPE RESOLUTION-->
+				<section>
+					<h3>Resolving Terratype</h3>
+					<img src="/images/pre_any-resolver.PNG" />
+					<img src="images/data_customproperties.PNG" />
+				</section>
+				<section>
+					<h3>Terratype Resolver</h3>
+					<pre>
+<code class="csharp" style="font-size: 18px">[DefaultGraphQLValueResolver]
+public class TerratypeModelResolver : GraphQLValueResolver
+{
+	public override Type GetGraphQLType(PublishedPropertyType type)
+	{
+		return typeof(TerratypeModelType);
+	}
+
+	public override bool IsResolver(PublishedPropertyType type)
+	{
+		return type.PropertyEditorAlias == "Terratype";
+	}
+}</code></pre>
+					<aside class="notes" data-markdown>
+						- [GIMME NOTES]
+					</aside>
+				</section>
+				<section>
+					<h3>Terratype Graph Type</h3>
+					<pre>
+<code class="csharp" style="font-size: 18px">public class TerratypeModelType : ObjectGraphType< Terratype.Models.Model >
+{
+  public TerratypeModelType()
+  {
+	Name = "Terratype";
+	Field< NonNullGraphType< FloatGraphType >>(
+	  "latitude",
+	  resolve: context => context.Source.Position?.ToWgs84().Latitude ?? 0
+	);
+	Field< NonNullGraphType< FloatGraphType >>(
+	  "longitude",
+	  resolve: context => context.Source.Position?.ToWgs84().Longitude ?? 0
+	);
+  }
+}</code></pre>
+					<aside class="notes" data-markdown>
+						- [GIMME NOTES]
+					</aside>
+				</section>
+				<section>
+					<h3>Terratype resolved</h3>
+					<img src="/images/post_tt-resolver.PNG" />
+					<aside class="notes" data-markdown>
+						- [GIMME NOTES]
+					</aside>
+				</section>
+
+				<!-- CUSTOM DATA RESOLUTION-->
+				<section>
+					<h3>Resolving Characters</h3>
+					<img src="/images/pre_custom-resolver.PNG" />
+					<img src="/images/data_customproperties.PNG" />
+				</section>
+				<section>
+					<h3>Custom Data Resolver</h3>
+					<pre>
+<code class="csharp" style="font-size: 18px">public override Type GetGraphQLType(PublishedPropertyType type)
+{
+	return typeof(ListGraphType< PublishedContentInterfaceGraphType >);
+}
+
+public override object Resolve(PublishedPropertyType type, object value)
+{
+	//this is where the actual work happens
+}
+
+public override bool IsResolver(PublishedPropertyType type)
+{
+	return type.PropertyEditorAlias == "CharacterPicker";
+}</code></pre>
+					<aside class="notes" data-markdown>
+						- [GIMME NOTES]
+					</aside>
+				</section>
+				<section>
+					<h3>Convert Ids >> IPublishedContent</h3>
+					<pre>
+<code class="csharp" style="font-size: 18px">var propertyValues = JsonConvert.DeserializeObject< int[] >(value.ToString());
+if (propertyValues != null)
+{
+  var umbracoHelper = new UmbracoHelper(UmbracoContext.Current);
+  var nodes = new List< IPublishedContent >();
+  foreach (var nodeId in propertyValues)
+  {
+	var node = umbracoHelper.TypedContent(nodeId);
+	if (node != null)
+	{
+	  nodes.Add(node);
+	}
+  }
+  return nodes;
+}</code></pre>
+					<aside class="notes" data-markdown>
+						- [GIMME NOTES]
+					</aside>
+				</section>
+			
+				<section>
+					<h3>And the result</h3>
+					<img src="/images/post_custom-resolver.PNG" />
+					<aside class="notes" data-markdown>
+						- [GIMME NOTES]
+					</aside>
 				</section>
 
 				<section>
+					<h3>Other chapters in the magical world of GraphQL</h3>
+					<hr />
+					<ul>
+						<li>In-built pagination - <span class="inline-code">fetchMore()</span></li>
+						<li>Dynamic routing e.g. using React-Router</li>
+						<li>Filtering & sorting</li>
+						<li>Permissions & security</li>
+					</ul>
+					<aside class="notes" data-markdown>
+						- [GIMME NOTES]
+					</aside>
+				</section>
+
+				<section>
+					<img src="/images/h5yr.png" style="margin: 0; border: 0; background: none; box-shadow: none; height: 200px;" />
+					<h3>...and they all lived happily ever after</h3>
+					<p>Questions? Tweet me at <a href="https://twitter.com/lssweatherhead">
+						<img src="/images/twitter.png" height="40" width="40" style="margin:0;border:0;padding-left:10px;background:none;" /> lssweatherhead #UmbracoGraphQL #UmbracoSpark
+					</a>
+					</p>
+					<div>
+						<a href="https://this.isfluent.com/">
+							<img class="icon" alt="Icon" src="/images/fluent-icon.png" height="40" width="40" style="margin:0;border:0;padding-left:10px;background:none;" />
+							<span>this.isfluent.com</span>
+						</a>
+					</div>
+				</section>
+			</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info about config & dependencies:
+			// - https://github.com/hakimel/reveal.js#configuration
+			// - https://github.com/hakimel/reveal.js#dependencies
+			Reveal.initialize({
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				]
+			});
+		</script>
+
+		<style type="text/css">
+			/* 1. Style header/footer <div> so they are positioned as desired. */
+			#header-left {
+				position: absolute;
+				top: 0%;
+				left: 0%;
+			}
+			#header-left .logo {
+				padding: 20px;
+				display: inline-flex;
+			}
+			#header-left .logo .icon {
+				max-height: 70px;
+				align-self: center;
+			}
+			#header-left .logo .company {
+				max-height: 80px;
+				align-self: center;
+			}
+		</style>
+
+		<!-- 2. Create hidden header/footer <div> -->
+		<div id="hidden" style="display:none;">
+			<div id="header">
+				<div id="header-left">
+					<div class="logo">
+						<img class="icon" alt="Icon" src="/images/fluent-icon.png" />
+						<img class="company" alt="Logo" src="/images/fluent-logo-white.png" />
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script src="lib/js/jquery-2.2.4.min.js"></script>
+		<script type="text/javascript">
+			// 3. On Reveal.js ready event, copy header/footer <div> into each `.slide-background` <div>
+			var header = $('#header').html();
+			if ( window.location.search.match( /print-pdf/gi ) ) {
+				Reveal.addEventListener( 'ready', function( event ) {
+					$('.slide-background').append(header);
+				});
+			}
+			else {
+				$('div.reveal').append(header);
+		}
+		</script>
+	</body>
+</html>
+
+
+<!--
+					<section>
 					<section>
 						<h3>Why should we use Typescript?</h3>
 						<ul>
@@ -447,86 +731,4 @@ filterPlaces = () => {
 </code></pre>
 					</section>
 				</section>
-
-				<section>
-					<h3>Aaaand we're done! (for now)</h3>
-					<p>For all tutorial content, notes, slides & github link: <a href="http://tutorials.lauraweatherhead.co.uk/react-typescript/">tutorials.lauraweatherhead.co.uk/react-typescript</a></p>
-					<p>Questions? Tweet me at <a href="https://twitter.com/lssweatherhead">
-						<img src="/images/twitter.png" height="40" width="40" style="margin:0;border:0;padding-left:10px;background:none;" /> lssweatherhead</a>
-					</p>
-					<div>
-						<a href="https://this.isfluent.com/">
-							<img class="icon" alt="Icon" src="/images/fluent-icon.png" height="40" width="40" style="margin:0;border:0;padding-left:10px;background:none;" />
-							<span>this.isfluent.com</span>
-						</a>
-					</div>
-					<img src="https://media.giphy.com/media/tIeCLkB8geYtW/giphy.gif" />
-				</section>
-			</div>
-		</div>
-
-		<script src="lib/js/head.min.js"></script>
-		<script src="js/reveal.js"></script>
-
-		<script>
-			// More info about config & dependencies:
-			// - https://github.com/hakimel/reveal.js#configuration
-			// - https://github.com/hakimel/reveal.js#dependencies
-			Reveal.initialize({
-				dependencies: [
-					{ src: 'plugin/markdown/marked.js' },
-					{ src: 'plugin/markdown/markdown.js' },
-					{ src: 'plugin/notes/notes.js', async: true },
-					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
-				]
-			});
-		</script>
-
-		<style type="text/css">
-			/* 1. Style header/footer <div> so they are positioned as desired. */
-			#header-left {
-				position: absolute;
-				top: 0%;
-				left: 0%;
-			}
-			#header-left .logo {
-				padding: 20px;
-				display: inline-flex;
-			}
-			#header-left .logo .icon {
-				max-height: 70px;
-				align-self: center;
-			}
-			#header-left .logo .company {
-				max-height: 80px;
-				align-self: center;
-			}
-		</style>
-
-		<!-- 2. Create hidden header/footer <div> -->
-		<div id="hidden" style="display:none;">
-			<div id="header">
-				<div id="header-left">
-					<div class="logo">
-						<img class="icon" alt="Icon" src="/images/fluent-icon.png" />
-						<img class="company" alt="Logo" src="/images/fluent-logo-white.png" />
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
-		<script type="text/javascript">
-			// 3. On Reveal.js ready event, copy header/footer <div> into each `.slide-background` <div>
-			var header = $('#header').html();
-			if ( window.location.search.match( /print-pdf/gi ) ) {
-				Reveal.addEventListener( 'ready', function( event ) {
-					$('.slide-background').append(header);
-				});
-			}
-			else {
-				$('div.reveal').append(header);
-		}
-		</script>
-	</body>
-</html>
+-->
