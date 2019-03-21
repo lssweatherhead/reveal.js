@@ -31,6 +31,11 @@
 					<h3>Umbraco & GraphQL in the Wild</h3>
 					<p class="author">Laura Weatherhead</p>
 					<p class="job-title">Developer, Fluent</p>
+					<aside class="notes" data-markdown>
+						- My name is Laura Weatherhead...
+						- Small software design and development agency based in C a m b r i d g e
+						- Talk about u s i n g GraphQL together with an Umbraco dataset, what problems we might face and how we might go about solving them
+					</aside>
 				</section>
 				<section>
 					<h3>The Plan</h3>
@@ -44,7 +49,10 @@
 					</ul>
 					<aside class="notes" data-markdown>
 						- There is an assumed base of knowledge of GraphQL (not necessarily hands-on), although I will touch upon the background of it
-
+						- Going to talk a little bit about what GraphQL is and why we should use it
+						- I am going to introduce a project and dataset where it might be beneficial to integrate with GraphQL
+						- We will then look in depth at one of the issues that may present itself when we start working with our data and how we might e x t e n d the existing functionality to resolve these issues
+						- I will finish up by looking at other potential sticking points ("opportunities") and how you could get involved
 					</aside>
 				</section>
 				<!-- Umbraco & GraphQL -->
@@ -57,7 +65,14 @@
 						<li>Allows easy access to filtering, sorting, paging etc</li>
 					</ul>
 					<aside class="notes" data-markdown>
-						- Pete memorably offers the comparison that GraphQL is to traditional API calls what music streaming is to mixtapes
+						- Pete memorably offers the comparison that GraphQL is to traditional API calls what a jukebox is to mixtapes
+						- WHAT is GraphQL: 2 things:
+							- a query l a n g u a g e for requesting data from a server or API
+							- and a r u n t i m e for fulfilling those queries
+						- How does it work & why should we use it?
+							- firstly you d e s c r i b e the shape of your content - create the graph!
+							- you ask only for what you need and get only what you need back
+							- get many resources in the same request
 						- Allows the FE dev to define what parameters are required and update/remove them in the FE code without needed to re-write API calls or do a full deployment
 						- For the example website that has been created, I have used the community Our.Umbraco.GraphQL as a base: all credits go to Rasmus J Pederson & the OffRoadCode crew
 					</aside>
@@ -84,15 +99,24 @@
 						</ul>
 					</div>
 					<aside class="notes" data-markdown>
+						- this is the data s t r u c t u r e
 						- basic heirarchy: one to many relations
 					</aside>
 				</section>
-				<section data-background="/images/app_whole.png"></section>
+				<section data-background="/images/app_whole.png">
+					<aside class="notes" data-markdown>
+						- this is the data SET
+						- 1 book, 2 chapters, 3 scenes
+						- also the closest you will currently get to Umbraco FanFiction
+					</aside>
+				</section>
 				<section>
 					<h3>What are we working with?</h3>
 					<img src="/images/content_tree_details.PNG" />
 					<aside class="notes" data-markdown>
-						- closest you will currently get to Umbraco FanFiction
+						- basic content tree
+						- IF you were writing a story you might want to add...
+						- custom location picker & custom character checkbox list
 					</aside>
 				</section>
 				<section>
@@ -112,6 +136,8 @@
 					<img src="/images/scene_properties.PNG" />
 					<aside class="notes" data-markdown>
 						- three complex parameters: Terra Location, custom CharacterPicker & Related Links
+						- realWorldLocation here uses the Terratype datatype by Jonathan Richards
+						- so in an ideal world we want to serve these through GraphQL
 					</aside>
 				</section>
 				<section>
@@ -151,7 +177,8 @@ public class RelatedLinksValueResolver : GraphQLValueResolver
 }
 				</code></pre>
 					<aside class="notes" data-markdown>
-						- [GIMME NOTES]
+						- when the package is attempting to resolve a property, it will look through the implemented GraphQLResolver classes to find the right one
+						- here we are passing a l i s t of this RelatedLinksType which is a custom ObjectGraphType (a data "shape")
 					</aside>
 				</section>
 				<section>
@@ -173,14 +200,16 @@ public class RelatedLinksValueResolver : GraphQLValueResolver
   }
 }</code></pre>
 					<aside class="notes" data-markdown>
-						- [GIMME NOTES]
+						- the RelatedLink is an inbuilt Umbraco Web Model
+						- we are telling it how to map this model to the object graph
 					</aside>
 				</section>
 				<section>
 					<h3>Outcome</h3>
 					<img src="/images/post_related-links-resolver.PNG" />
 					<aside class="notes" data-markdown>
-						- [GIMME NOTES]
+						- and this has been stripped back for brevity, but you can see that the Scene has resolved two links
+						- with their nested properties
 					</aside>
 				</section>
 
@@ -189,6 +218,11 @@ public class RelatedLinksValueResolver : GraphQLValueResolver
 					<h3>Resolving Terratype</h3>
 					<img src="/images/pre_any-resolver.PNG" />
 					<img src="images/data_customproperties.PNG" />
+					<aside class="notes" data-markdown>
+						- here's a reminder of how the data looked for the Terra Location
+						- coming out as a string, but complex in the database
+						- "datum" is really the bit we're interested in
+					</aside>
 				</section>
 				<section>
 					<h3>Terratype Resolver</h3>
@@ -207,7 +241,8 @@ public class TerratypeModelResolver : GraphQLValueResolver
 	}
 }</code></pre>
 					<aside class="notes" data-markdown>
-						- [GIMME NOTES]
+						- Notice that type "Terratype" is the propertyEditorAlias
+						- only one type, because it's not a list
 					</aside>
 				</section>
 				<section>
@@ -229,14 +264,15 @@ public class TerratypeModelResolver : GraphQLValueResolver
   }
 }</code></pre>
 					<aside class="notes" data-markdown>
-						- [GIMME NOTES]
+						- taking the external Terratype model as input
+						- FloatGraphType rather than the string, but still NonNullGraphType
 					</aside>
 				</section>
 				<section>
 					<h3>Terratype resolved</h3>
 					<img src="/images/post_tt-resolver.PNG" />
 					<aside class="notes" data-markdown>
-						- [GIMME NOTES]
+						- and we can now feed that into a front-end map or pass it on to another front-end method
 					</aside>
 				</section>
 
@@ -245,6 +281,10 @@ public class TerratypeModelResolver : GraphQLValueResolver
 					<h3>Resolving Characters</h3>
 					<img src="/images/pre_custom-resolver.PNG" />
 					<img src="/images/data_customproperties.PNG" />
+					<aside class="notes" data-markdown>
+						- so the final bit we're going to look at is how we might go about resolving a custom data type
+						- our weird string... not so beautiful
+					</aside>
 				</section>
 				<section>
 					<h3>Custom Data Resolver</h3>
@@ -264,7 +304,8 @@ public override bool IsResolver(PublishedPropertyType type)
 	return type.PropertyEditorAlias == "CharacterPicker";
 }</code></pre>
 					<aside class="notes" data-markdown>
-						- [GIMME NOTES]
+						- still have IsResolver and still telling it what type we have, but now making use of another method "Resolve"
+						- up until now we've only had to map objects, but now we actually want to change from an ID to a an IPublishedContent object
 					</aside>
 				</section>
 				<section>
@@ -286,7 +327,8 @@ if (propertyValues != null)
   return nodes;
 }</code></pre>
 					<aside class="notes" data-markdown>
-						- [GIMME NOTES]
+						- this is not terribly exciting - we have the value and deserialize it
+						- for each id in our value set we are adding to a list of nodes and returning it as PublishedContentInterfaceGraphType
 					</aside>
 				</section>
 			
@@ -294,7 +336,8 @@ if (propertyValues != null)
 					<h3>And the result</h3>
 					<img src="/images/post_custom-resolver.PNG" />
 					<aside class="notes" data-markdown>
-						- [GIMME NOTES]
+						- but... it does the trick, as we can now see the published content properties
+						- this means we can access name, characterImage and any other properties we have assigned
 					</aside>
 				</section>
 
@@ -308,7 +351,9 @@ if (propertyValues != null)
 						<li>Permissions & security</li>
 					</ul>
 					<aside class="notes" data-markdown>
-						- [GIMME NOTES]
+						- pagination introduces the concept of e d g e s which allows you to ask for a set of content
+						- we are hard coding node ids in the example, but it is possible to set up your app (e.g. React) with dynamic routing which takes a dictionary of Umbraco urls/page ids as input
+						- security: the project already has a lot of build in security/permissions based access on a property by property basis. I also looked at PersistGraphQL which enables query whitelisting and persisted queries
 					</aside>
 				</section>
 
@@ -316,8 +361,8 @@ if (propertyValues != null)
 					<img src="/images/h5yr.png" style="margin: 0; border: 0; background: none; box-shadow: none; height: 200px;" />
 					<h3>...and they all lived happily ever after</h3>
 					<p>Questions? Tweet me at <a href="https://twitter.com/lssweatherhead">
-						<img src="/images/twitter.png" height="40" width="40" style="margin:0;border:0;padding-left:10px;background:none;" /> lssweatherhead #UmbracoGraphQL #UmbracoSpark
-					</a>
+							<img src="/images/twitter.png" height="40" width="40" style="margin:0;border:0;padding-left:10px;background:none;" /> lssweatherhead #UmbracoGraphQL #UmbracoSpark
+						</a>
 					</p>
 					<div>
 						<a href="https://this.isfluent.com/">
@@ -325,6 +370,7 @@ if (propertyValues != null)
 							<span>this.isfluent.com</span>
 						</a>
 					</div>
+					<a href="https://github.com/rasmusjp/umbraco-graphql">github.com/rasmusjp/umbraco-graphql</a>
 				</section>
 			</div>
 		</div>
