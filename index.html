@@ -84,7 +84,7 @@
 						</ul>
 					</div>
 					<aside class="notes" data-markdown>
-						- [GIMME NOTES]
+						- basic heirarchy: one to many relations
 					</aside>
 				</section>
 				<section data-background="/images/app_whole.png"></section>
@@ -92,14 +92,17 @@
 					<h3>What are we working with?</h3>
 					<img src="/images/content_tree_details.PNG" />
 					<aside class="notes" data-markdown>
-						- [GIMME NOTES]
+						- closest you will currently get to Umbraco FanFiction
 					</aside>
 				</section>
 				<section>
 					<h3>The GraphQL Query</h3>
 					<img src="/images/init_query.PNG" />
 					<aside class="notes" data-markdown>
-						- [GIMME NOTES]
+						- byType: Book > hardcodes book id
+						- nested query "chapters", nested query "scenes"
+						- filter/order by params
+						- documentTypeAlias property as a signpost
 					</aside>
 				</section>
 
@@ -107,14 +110,26 @@
 				<section>
 					<h3>Let's look at the Scene doctype</h3>
 					<img src="/images/scene_properties.PNG" />
+					<aside class="notes" data-markdown>
+						- three complex parameters: Terra Location, custom CharacterPicker & Related Links
+					</aside>
 				</section>
 				<section>
 					<h3>Scene stored data</h3>
 					<img src="/images/data_customproperties.PNG" />
+					<aside class="notes" data-markdown>
+						- Terratype: complex object
+						- CharacterPicker: array of ids
+						- RelatedLinks: array of complex objects
+					</aside>
 				</section>
 				<section>
 					<h3>Scene GraphQL Query</h3>
 					<img src="/images/pre_any-resolver.PNG" />
+					<aside class="notes" data-markdown>
+						- GraphQL query for single Scene document
+						- Can clearly see the unresolved data types being returned as (default) strings
+					</aside>
 				</section>
 				
 				<!-- RELATED LINKS RESOLUTION-->
