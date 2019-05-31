@@ -384,5 +384,52 @@ Reveal.addEventListener( 'customevent', function() {
 				]
 			});
 		</script>
+
+		<style type="text/css">
+			/* 1. Style header/footer <div> so they are positioned as desired. */
+			#header-left {
+				position: absolute;
+				top: 0%;
+				left: 0%;
+			}
+			#header-left .logo {
+				padding: 20px;
+				display: inline-flex;
+			}
+			#header-left .logo .icon {
+				max-height: 70px;
+				align-self: center;
+			}
+			#header-left .logo .company {
+				max-height: 80px;
+				align-self: center;
+			}
+		</style>
+
+		<!-- 2. Create hidden header/footer <div> -->
+		<div id="hidden" style="display:none;">
+			<div id="header">
+				<div id="header-left">
+					<div class="logo">
+						<img class="icon" alt="Icon" src="/images/logo.png" />
+						<!-- <img class="company" alt="Logo" src="/images/fluent-logo-white.png" /> -->
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script src="lib/js/jquery-3.4.1.min.js"></script>
+		<script type="text/javascript">
+			// 3. On Reveal.js ready event, copy header/footer <div> into each `.slide-background` <div>
+			var header = $('#header').html();
+			if ( window.location.search.match( /print-pdf/gi ) ) {
+				Reveal.addEventListener( 'ready', function( event ) {
+					$('.slide-background').append(header);
+				});
+			}
+			else {
+				$('div.reveal').append(header);
+		}
+		</script>
 	</body>
 </html>
