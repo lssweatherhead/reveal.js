@@ -294,6 +294,9 @@ body {
   font-size: 1.5em;
   text-shadow: none; }
 
+.reveal a {
+  color: #ea6953; }
+
 .reveal p code {
   background-color: #23241f;
   display: inline-block;
