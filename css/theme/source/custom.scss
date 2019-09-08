@@ -17,34 +17,44 @@
  
  // Include theme-specific fonts
  
- @import url(https://fonts.googleapis.com/css?family=Aleo|Montserrat);
+ @font-face {
+    font-family: 'squiggle';
+    src: url('/fonts/SquiggleItalic.ttf');
+}
+
+@font-face {
+    font-family: 'mid';
+    src: url('/fonts/LauraMidWeight.ttf');
+}
  
  // Colors used in the theme
- $blood: #a23;
- $coal: #222;
+ $spun: #9e1b3d;
+ $grey: #dcdcdc;
  $codeBackground: #23241f;
  
- $backgroundColor: $coal;
+ $backgroundColor: $grey;
  
  // Main text
- $mainFont: Montserrat, 'sans-serif';
- $mainColor: #eee;
+ $mainFont: squiggle, 'sans-serif';
+ $mainColor: $spun;
+ $mainFontSize: 2rem;
  
  // Headings
- $headingFont: Aleo, 'sans-serif';
- $headingTextShadow: 2px 2px 2px $coal;
+ $headingFont: squiggle, 'sans-serif';
+ $headingTextShadow: 2px 2px 2px $spun;
+ $headingColor: $spun;
  
  // h1 shadow, borrowed humbly from 
  // (c) Default theme by Hakim El Hattab
- $heading1TextShadow: 0 1px 0 #ccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbb, 0 4px 0 #b9b9b9, 0 5px 0 #aaa, 0 6px 1px rgba(0,0,0,.1), 0 0 5px rgba(0,0,0,.1), 0 1px 3px rgba(0,0,0,.3), 0 3px 5px rgba(0,0,0,.2), 0 5px 10px rgba(0,0,0,.25), 0 20px 20px rgba(0,0,0,.15);
+ $heading1TextShadow: none;//0 1px 0 #ccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbb, 0 4px 0 #b9b9b9, 0 5px 0 #aaa, 0 6px 1px rgba(0,0,0,.1), 0 0 5px rgba(0,0,0,.1), 0 1px 3px rgba(0,0,0,.3), 0 3px 5px rgba(0,0,0,.2), 0 5px 10px rgba(0,0,0,.25), 0 20px 20px rgba(0,0,0,.15);
  
  // Links
- $linkColor: $blood;
+ $linkColor: $spun;
  $linkColorHover: lighten( $linkColor, 20% );
  
  // Text selection
- $selectionBackgroundColor: $blood;
- $selectionColor: #fff;
+ $selectionBackgroundColor: $spun;
+ $selectionColor: #ea6953;
  
  
  // Theme template ------------------------------
@@ -53,9 +63,21 @@
  
  // some overrides after theme template import
  
- .reveal p {
-     font-weight: 300;
-     text-shadow: 1px 1px $coal;
+ .reveal {
+    p {
+        font-weight: 300;
+        text-shadow: none;
+    }
+
+    h1 {
+        font-size: 2em;
+        text-shadow: none;
+    }
+
+    h2, h3 {
+        font-size: 1.5em;
+        text-shadow: none;
+    }
  }
  
 //  .reveal h1,
@@ -67,19 +89,55 @@
 //      font-weight: 700;
 //  }
  
- .reveal p code {
-     background-color: $codeBackground;
-     display: inline-block;
-     border-radius: 7px;
- }
+.reveal p code {
+    background-color: $codeBackground;
+    display: inline-block;
+    border-radius: 7px;
+}
  
- .reveal small code {
-     vertical-align: baseline;
- }
+.reveal small code {
+    vertical-align: baseline;
+}
 
- .reveal {
-     .super-up {
+.reveal {
+    .super-up {
         font-weight: bold;
         color: green;
-     }
- }
+    }
+
+    .handwriting {
+        font-family: mid, 'sans-serif';
+    }
+}
+
+.reveal section {
+    img {
+        border: 0;
+        box-shadow: none;
+        background: none;
+
+        &.laura {
+            height: 40rem;
+        }
+    }
+
+    p {
+        font-size: $mainFontSize - 0.5;
+    }
+
+    .flex {
+        display: flex;
+
+        &.center {
+            align-items: center;
+        }
+
+        &.space {
+            justify-content: space-around;
+        }
+    }
+
+    .align-left {
+        text-align: left;
+    }
+}

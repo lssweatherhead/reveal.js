@@ -134,6 +134,9 @@ body {
     opacity: 1;
     visibility: inherit; }
 
+.reveal .slides section .fragment.highlight-orange,
+.reveal .slides section .fragment.highlight-pink,
+.reveal .slides section .fragment.highlight-purple,
 .reveal .slides section .fragment.highlight-red,
 .reveal .slides section .fragment.highlight-current-red,
 .reveal .slides section .fragment.highlight-green,
@@ -147,10 +150,19 @@ body {
   color: #ff2c2d; }
 
 .reveal .slides section .fragment.highlight-green.visible {
-  color: #17ff2e; }
+  color: #052E22; }
 
 .reveal .slides section .fragment.highlight-blue.visible {
   color: #1b91ff; }
+
+.reveal .slides section .fragment.highlight-orange.visible {
+  color: #DD6B49; }
+
+.reveal .slides section .fragment.highlight-pink.visible {
+  color: #AF3F68; }
+
+.reveal .slides section .fragment.highlight-purple.visible {
+  color: #630B86; }
 
 .reveal .slides section .fragment.highlight-current-red.current-fragment {
   color: #ff2c2d; }
