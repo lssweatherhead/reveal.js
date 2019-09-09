@@ -81,6 +81,45 @@
 
     a {
         color: $selectionColor;
+
+        &.ref {
+            font-size: 0.5em;
+        }
+    }
+
+    .invert {
+        color: $grey;
+
+        h1, h2, h3, p {
+            color: $grey;
+            background: $spun;
+            padding: 5px;
+        }
+    }
+
+    .bg {
+        background: $spun;
+        padding: 5px;
+
+        &-trans {
+            background: rgba(255,255,255,0.6);
+        }
+    }
+
+    .abs-float {
+        position: absolute;
+        padding: 5rem 10rem;
+    }
+
+    .quote {
+        &.highlight {
+            //border-bottom: 10px solid $spun;
+        }
+    }
+
+    .reference {
+        margin-top: 1em;
+        line-height: 0.5em;
     }
  }
  
@@ -117,12 +156,27 @@
 .reveal section {
     img {
         border: 0;
+        margin: 0;
         box-shadow: none;
         background: none;
 
         &.laura {
             height: 30rem;
             margin: 40px 20px;
+        }
+
+        &.width {
+            &-35 {
+                width: 35rem;
+            }
+
+            &-50 {
+                width: 50rem;
+            }
+
+            &-80 {
+                width: 80rem;
+            }
         }
     }
 
@@ -137,8 +191,24 @@
             align-items: center;
         }
 
+        &.end {
+            align-items: flex-end;
+        }
+
+        &.start {
+            align-items: flex-start;
+        }
+
         &.space {
             justify-content: space-around;
+        }
+
+        &.between {
+            justify-content: space-between;
+        }
+
+        .fragment {
+            margin: 0 5rem 1rem;
         }
     }
 

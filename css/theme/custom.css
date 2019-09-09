@@ -296,6 +296,29 @@ body {
 
 .reveal a {
   color: #ea6953; }
+  .reveal a.ref {
+    font-size: 0.5em; }
+
+.reveal .invert {
+  color: #dcdcdc; }
+  .reveal .invert h1, .reveal .invert h2, .reveal .invert h3, .reveal .invert p {
+    color: #dcdcdc;
+    background: #9e1b3d;
+    padding: 5px; }
+
+.reveal .bg {
+  background: #9e1b3d;
+  padding: 5px; }
+  .reveal .bg-trans {
+    background: rgba(255, 255, 255, 0.6); }
+
+.reveal .abs-float {
+  position: absolute;
+  padding: 5rem 10rem; }
+
+.reveal .reference {
+  margin-top: 1em;
+  line-height: 0.5em; }
 
 .reveal p code {
   background-color: #23241f;
@@ -314,11 +337,18 @@ body {
 
 .reveal section img {
   border: 0;
+  margin: 0;
   box-shadow: none;
   background: none; }
   .reveal section img.laura {
     height: 30rem;
     margin: 40px 20px; }
+  .reveal section img.width-35 {
+    width: 35rem; }
+  .reveal section img.width-50 {
+    width: 50rem; }
+  .reveal section img.width-80 {
+    width: 80rem; }
 
 .reveal section p {
   font-size: 1.5rem; }
@@ -327,8 +357,16 @@ body {
   display: flex; }
   .reveal section .flex.center {
     align-items: center; }
+  .reveal section .flex.end {
+    align-items: flex-end; }
+  .reveal section .flex.start {
+    align-items: flex-start; }
   .reveal section .flex.space {
     justify-content: space-around; }
+  .reveal section .flex.between {
+    justify-content: space-between; }
+  .reveal section .flex .fragment {
+    margin: 0 5rem 1rem; }
 
 .reveal section .align-left {
   text-align: left; }
