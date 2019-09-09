@@ -310,7 +310,8 @@ body {
   background: #9e1b3d;
   padding: 5px; }
   .reveal .bg-trans {
-    background: rgba(255, 255, 255, 0.6); }
+    background: rgba(255, 255, 255, 0.65);
+    padding: 15px; }
 
 .reveal .abs-float {
   position: absolute;
