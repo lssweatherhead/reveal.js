@@ -317,7 +317,8 @@ body {
   box-shadow: none;
   background: none; }
   .reveal section img.laura {
-    height: 40rem; }
+    height: 30rem;
+    margin: 40px 20px; }
 
 .reveal section p {
   font-size: 1.5rem; }
