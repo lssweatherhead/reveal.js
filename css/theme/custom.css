@@ -325,6 +325,11 @@ body {
   margin-top: 1em;
   line-height: 0.5em; }
 
+.reveal .bib {
+  font-size: 0.45em; }
+  .reveal .bib p {
+    margin: 10px 0; }
+
 .reveal p code {
   background-color: #23241f;
   display: inline-block;
