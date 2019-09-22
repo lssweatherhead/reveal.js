@@ -59,7 +59,7 @@ body {
   font-family: squiggle, "sans-serif";
   font-weight: normal;
   line-height: 1.2;
-  letter-spacing: normal;
+  letter-spacing: -0.5px;
   text-transform: none;
   text-shadow: 2px 2px 2px #9e1b3d;
   word-wrap: break-word; }
@@ -282,53 +282,48 @@ body {
   .backgrounds {
     background-color: #dcdcdc; } }
 
-.reveal p {
-  font-weight: 300;
-  text-shadow: none; }
-
-.reveal h1 {
-  font-size: 2em;
-  text-shadow: none; }
-
-.reveal h2 {
-  font-size: 1.5em;
-  text-shadow: none; }
-
-.reveal h3 {
-  font-size: 1.1em;
-  text-shadow: none; }
-
-.reveal a {
-  color: #ea6953; }
-  .reveal a.ref {
-    font-size: 0.5em; }
-
-.reveal .invert {
-  color: #dcdcdc; }
-  .reveal .invert h1, .reveal .invert h2, .reveal .invert h3, .reveal .invert p {
-    color: #dcdcdc;
+.reveal {
+  letter-spacing: -0.5px; }
+  .reveal p {
+    font-weight: 300;
+    text-shadow: none; }
+  .reveal h1 {
+    font-size: 2em;
+    text-shadow: none; }
+  .reveal h2 {
+    font-size: 1.5em;
+    text-shadow: none; }
+  .reveal h3 {
+    font-size: 1.1em;
+    text-shadow: none; }
+  .reveal a {
+    color: #ea6953; }
+    .reveal a.ref {
+      font-size: 0.5em; }
+  .reveal .invert {
+    color: #dcdcdc; }
+    .reveal .invert h1, .reveal .invert h2, .reveal .invert h3, .reveal .invert p {
+      color: #dcdcdc;
+      background: #9e1b3d;
+      padding: 5px; }
+  .reveal .bg {
     background: #9e1b3d;
     padding: 5px; }
-
-.reveal .bg {
-  background: #9e1b3d;
-  padding: 5px; }
-  .reveal .bg-trans {
-    background: rgba(255, 255, 255, 0.65);
-    padding: 15px; }
-
-.reveal .abs-float {
-  position: absolute;
-  padding: 5rem 10rem; }
-
-.reveal .reference {
-  margin-top: 1em;
-  line-height: 0.5em; }
-
-.reveal .bib {
-  font-size: 0.45em; }
-  .reveal .bib p {
-    margin: 10px 0; }
+    .reveal .bg-trans {
+      background: rgba(255, 255, 255, 0.65);
+      padding: 15px; }
+  .reveal .abs-float {
+    position: absolute;
+    padding: 5rem 10rem; }
+  .reveal .reference {
+    margin-top: 1em;
+    line-height: 0.5em; }
+  .reveal .bib {
+    font-size: 0.45em; }
+    .reveal .bib p {
+      margin: 10px 0; }
+  .reveal .runline span {
+    padding-right: 10px; }
 
 .reveal p code {
   background-color: #23241f;
@@ -344,6 +339,14 @@ body {
 
 .reveal .handwriting {
   font-family: mid, 'sans-serif'; }
+
+.reveal section.code {
+  margin: 0;
+  padding: 0; }
+  .reveal section.code pre {
+    box-shadow: none; }
+    .reveal section.code pre .hljs, .reveal section.code pre .csharp {
+      max-height: none; }
 
 .reveal section img {
   border: 0;

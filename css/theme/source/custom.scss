@@ -42,6 +42,7 @@
  // Headings
  $headingFont: squiggle, 'sans-serif';
  $headingTextShadow: 2px 2px 2px $spun;
+ $headingLetterSpacing: -0.5px;
  $headingColor: $spun;
  
  // h1 shadow, borrowed humbly from 
@@ -56,7 +57,6 @@
  $selectionBackgroundColor: $spun;
  $selectionColor: #ea6953;
  
- 
  // Theme template ------------------------------
  @import "../template/theme";
  // ---------------------------------------------
@@ -64,6 +64,8 @@
  // some overrides after theme template import
  
  .reveal {
+    letter-spacing: -0.5px;
+
     p {
         font-weight: 300;
         text-shadow: none;
@@ -135,6 +137,12 @@
             margin: 10px 0;
         }
     }
+
+    .runline {
+        span {
+            padding-right: 10px;
+        }
+    }
  }
  
 //  .reveal h1,
@@ -168,6 +176,19 @@
 }
 
 .reveal section {
+    &.code {
+        margin: 0;
+        padding: 0;
+
+        pre {
+            box-shadow: none;
+
+            .hljs, .csharp {
+                max-height: none;
+            }
+        }
+    }
+
     img {
         border: 0;
         margin: 0;

@@ -4,14 +4,15 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>Debugging the mind</title>
+		<title>Saving the world with Umbraco & GraphQL</title>
 
 		<link rel="stylesheet" href="https://use.typekit.net/gxl0wpb.css">
 		<link rel="stylesheet" href="css/reveal.css">
 		<link rel="stylesheet" href="css/theme/custom.css">
 
 		<!-- Theme used for syntax highlighting of code -->
-		<link rel="stylesheet" href="lib/css/zenburn.css">
+		<!-- <link rel="stylesheet" href="lib/css/atom-one-dark.css"> -->
+		<link href="lib/css/prism.css" rel="stylesheet" />
 
 		<!-- Printing and PDF exports -->
 		<script>
@@ -26,14 +27,14 @@
 		<div class="reveal">
 			<div class="slides">
 				<section>
-					<h1>Debugging the Mind</h1>
+					<h1>Umbraco & GraphQL</h1>
 					<p>
-						Inside the ultimate black box
+						Saving the world
 					</p>
 					<aside class="notes">
 						<h3>Why am I here?</h3>
-						<p>To shed some light on the cognition that underpins the problem solving process</p>
-						<p>A bit of a mix of experience, research & learnings that I have picked up along the way</p>
+						<p>Extending the community Umbraco GraphQL package with custom data structures</p>
+						<p>The data set that will be used for demo is carbon emission related - but more on that in a moment</p>
 					</aside>
 				</section>
 
@@ -43,93 +44,168 @@
 						<div class="">
 							<h2>Laura Weatherhead</h2>
 							<p><a href="https://twitter.com/lssweatherhead">@lssweatherhead</a></p>
-							<p>Full-Stack Developer</p>
-							<p>Artificial Intelligence & Computer Science</p>
+							<p>Full-Stack Developer @ Spun</p>
+							<p></p>
 						</div>
 						<img class="laura" src="/images/laura3.png" />
 					</div>
-					<p class="">
-						Problem solver. Writer. Reader. Amateur acrobat. Trampolinist. Painter. Speaker. Chocaholic.
+					<p class="runline">
+						Problem&nbsp;solver. Amateur&nbsp;acrobat. Adopted&nbsp;Scot. Pedant. Arachnophobe. Chocaholic.
 					</p>
 
 					<aside class="notes">
 						<h3>Who am I?</h3>
-						<p>I'm Laura</p>
-						<p>AI is a 2-way street. Using human intelligence as a benchmark for artificial intelligence. Using machines to better understand the brain: fMRIs, eye-tracking, cognitive modelling & ALEs</p>
-						<p>Perfect feedback loop, right? ...</p>
-						<p>And really, why wouldn't you be interested in the brain? My ambitions of being an astronaut, ballerina, olympic gymnast have fallen by the wayside - so I make a living with my brain</p>
-						<p>Having an inkling of what's going on inside that black box that sits on your shoulders could be helpful in any area of your life...</p>
-					</aside>
-				</section>
-
-				<section data-background="/images/dark.jpeg">
-					<aside class="notes">
-						<h3>The Scene</h3>
-						<p>Thursday afternoon. Raining.</p>
-						<p>Project/feature/bug but it's too hard/not working/doesn't make sense</p>
-						<p>Everything feels futile and you are questioning your own abilities</p>
-					</aside>
-				</section>
-
-				<section data-background="/images/t-o-c.png">
-					<div class="flex center between invert">
-						<h1 style="display: block;position: absolute;left: -12rem;" class="fragment fade-left">Tired</h1>
-						<h1 style="display: block;position: absolute;left: 30rem;" class="fragment fade-left">Oppressed</h1>
-						<h1 style="display: block;position: absolute;right: -20rem;" class="fragment fade-left">Confused</h1>
-					</div>
-					<aside class="notes">
-						<p>Why are you feeling this way?</p>
-						<ul>
-							<li>You’re tired. You have a child/sick relative/loud neighbour/heartbreak</li>
-							<li>You’re oppressed. You have anxiety/deadlines/responsibility/not enough time/mixed priorities</li>
-							<li>You’re confused. It should work but it doesn’t and you don’t understand why. Something/many things are missing and you’re lost on what your next step should be</li>
-						</ul>
-					</aside>
-				</section>
-
-				<!-- TIRED SLIDES -->
-				<section>
-					<div class="flex end between">
-						<h2>Tired</h2>
-						<div style="display: inline-block;" class="fragment fade-left">
-							<img src="https://media.giphy.com/media/bq6F8QYqBU7Yc/source.gif" />
-						</div>
-					</div>
-					<aside class="notes">
-						<p>Why might your brain be tired?</p>
-						<ul>
-							<li>You need to sleep</li>
-							<li>You need to take a break</li>
-							<li>You need to recharge your batteries</li>
-						</ul>
-						<p>We all know we need to sleep – but do you know why? Do you know why we struggle so much when we have slept poorly? We all know that feeling when we walk away from a problem only to solve it hours later, but why does this happen?</p>
-						<p>Let’s talk about what is happening in the brain when you are tired.</p>						
+						<p>I'm Laura - developer etc</p>
+						<p>Climate Change: the Facts - David Attenborough</p>
+						<p>How to make informed decisions?</p>
 					</aside>
 				</section>
 
 				<section>
-					<div class="">
-						<h1 class="quote highlight handwriting">"I love sleep. My life has the tendency to fall apart when I'm awake, you know?"</h1>
-					</div>
-					<p class="quote-attr">Ernest Hemingway</p>
+					<h2>What is GraphQL and why would we want to use it?</h2>
+					<ul>
+						<li>It's a data graph</li>
+						<li>Shifts the parameter requirements from the server-side code to the front-end</li>
+						<li>Allows easy access to filtering, sorting, paging etc</li>
+						<li>Pete Duncanson, OffRoadCode & Rasmus Pedersen have produced the awesome Umbraco GraphQL community package</li>
+					</ul>
 
-					<aside class="notes">
-						<h3>Sleep deprived</h3>
-						<p>Ever tried to teach a tired child anything?</p>
-						<p>Push and pull between amygdala (anger, irritability, anxiety, fear) and neocortex (consciousness, attention, perception, reasoning)</p>
-						<p>Mitochondria are tiny structure that fuel the body by producing molecules called <b>adenosine triphosphate</b> or ATP...</p>
-						<p>+ raised blood pressure + harder to control emotions</p>
-						<p>SW sleep preserves our memories by recapitulating what we have learned during the day. REM incorporates these memories into what we already know.</p>
-						<p>David Eagleman references studies that attempted to teach retrograde amnesiacs how to play tetris.</p>
-						<p>Not surprising - what's good for body is good for mind. + exercise promotes growth hormones, protein rich foods aid neuroplasticity</p>
+					<aside class="notes" data-markdown>
+						* Pete memorably offers the comparison that GraphQL is to traditional API calls what a jukebox is to mixtapes
+						* WHAT is GraphQL: 2 things:
+							* a query l a n g u a g e for requesting data from a server or API
+							* and a r u n t i m e for fulfilling those queries
+						* How does it work & why should we use it?
+							* firstly you d e s c r i b e the shape of your content - create the graph!
+							* you ask only for what you need and get only what you need back
+							* get many resources in the same request
+						* Allows the FE dev to define what parameters are required and update/remove them in the FE code without needed to re-write API calls or do a full deployment
+						For the example website that has been created, I have used the community Our.Umbraco.GraphQL as a base: all credits go to Rasmus J Pederson & the OffRoadCode crew
 					</aside>
 				</section>
 
 				<section>
-					<h2 class="abs-float invert">The wandering mind</h2>
-					<img src="/images/wandering.jpeg" />
+					<h2>Carbon Footprinting</h2>
+					<img src="https://user-images.githubusercontent.com/6873029/63231056-6b293b00-c205-11e9-95bc-faaca98814e6.PNG"/>
+					<aside class="notes" data-markdown>
+						* We will be looking at using Umbraco (v7) and GraphQL together to map and resolve custom PetaPoco data from a bespoke dashboard and surfacing it as part of the exposed GraphQL API.
+						* The structure that we have here is fairly simple for the sake of demonstration. We have:
+						- A `ItemType` category e.g. "Food"
+						  - Which has one or more `Item` e.g. "1 x mug of tea or coffee"
+							- Which has one or more `Variant` e.g. "1 x mug of tea or coffee with milk, boiling only what you need"
+						* Each `Variant` is tagged with an approximate cost in **carbon dioxide equivalent (CO<sub>2</sub>e)** which is essentially a shorthand for expressing all of the greenhouse gases that an activity or item emits in terms of the equivalent amount of carbon dioxide. This loses some accuracy but makes it slightly easier to make comparisons!
+					</aside>
+				</section>
 
+				<section class="code">
+					<h3>Classes</h3>
+					<pre><code class="hljs" data-trim contenteditable>
+public class ItemType
+{
+	public int Id { get; set; }
+
+	public string Name { get; set; }
+}
+
+public class Item
+{
+	public int Id { get; set; }
+
+	public string ItemName { get; set; }
+
+	public double MinCarbonDioxideEquivalent { get; set; }
+
+	public double MaxCarbonDioxideEquivalent { get; set; }
+}
+
+public class Variant
+{
+	public int Id { get; set; }
+
+	public string VariantName { get; set; }
+
+	public double CarbonDioxideEquivalent { get; set; }
+}</code></pre>
 					<aside class="notes">
+						This is the data that we want to able to access through GraphQL, so now we need to look at the steps that will allow that to happen.
+
+						1. GraphQL essentially works using a data "shape", so the first step is to set up graph types that will inform the application what our data structure looks like
+						2. The second paradigm of GraphQL is the query capacity, so we also need to tell the application what queries can be completed and how these queries should work
+						3. Finally, we will need to extend on the work completed by Rasmus and Offroadcode to surface our structure alongside the existing Umbraco content query structure
+						
+						Let's explore these in more detail...
+					</aside>
+				</section>
+
+				<section>
+					<h3>Add new graph types and set our data shape</h3>>
+					<pre><code class="hljs" data-trim contenteditable>
+public class CarbonFootprintCategoryGraphType : ObjectGraphType<ItemType>
+{
+	public CarbonFootprintCategoryGraphType()
+	{
+		Name = "CarbonFootprintCategory";
+
+		Field<NonNullGraphType<IntGraphType>>(
+			"id",
+			resolve: context => context.Source.Id
+		);
+		Field<NonNullGraphType<StringGraphType>>(
+			"name",
+			resolve: context => context.Source.Name
+		);
+		Field<NonNullGraphType<ListGraphType<CarbonFootprintItemGraphType>>>(
+			"items",
+			resolve: context => ApplicationContext.Current.DatabaseContext.GetItemsByCategoryId(context.Source.Id)
+		);
+	}
+}</code></pre>
+
+					<aside class="notes" data-markdown>
+							So there are a few things going on here:
+							- We are inheriting an `ObjectGraphType` of our data class and this is used as the `context.Source` when mapping from the properties to the built in GraphQL [Schema Types](https://graphql-dotnet.github.io/docs/getting-started/schema-types)
+							- We are declaring an "items" property that returns a `ListGraphType` (a list) of `CarbonFootprintItemGraphType` objects. This is the next graph type that we will need to define.
+					</aside>
+				</section>
+
+				<section>
+					<h3>CarbonFootprintItemGraphType.cs</h3>
+<pre><code class="language-csharp">
+public class CarbonFootprintItemGraphType: ObjectGraphType<Item>
+{
+	public CarbonFootprintItemGraphType()
+	{
+		Name = "CarbonFootprintItem";
+		Field<NonNullGraphType<IntGraphType>(
+			"id",
+			resolve: context => context.Source.Id
+		);
+		Field<NonNullGraphType<StringGraphType>(
+			"name",
+			resolve: context => context.Source.ItemName
+		);
+		Field<NonNullGraphType<CarbonFootprintCategoryGraphType>(
+			"category",
+			resolve: context => ApplicationContext.Current.DatabaseContext.GetCategoryById(context.Source.ItemType)
+		);
+
+		Field<NonNullGraphType<FloatGraphType>(
+			"minCarbonDioxideEquivalentInGrams",
+			resolve: context => context.Source.MinCarbonDioxideEquivalent
+		);
+
+		Field<FloatGraphType>(
+			"maxCarbonDioxideEquivalentInGrams",
+			resolve: context => context.Source.MaxCarbonDioxideEquivalent
+		);
+
+		Field<NonNullGraphType<ListGraphType<CarbonFootprintVariantGraphType>>(
+			"variants",
+			resolve: context => ApplicationContext.Current.DatabaseContext.GetVariantsByItemId(context.Source.Id)
+		);
+	}
+}</code></pre>
+					<aside class="notes" data-markdown>
 						<p>Your mind is like a town - when focused everyone is in the town square, but when wandering activity is distributed. Default mode network.</p>
 						<p>Benefits of mindfulness are well documented. + shrunken amygdala + enlarged prefrontal cortex. During mind wandering, subjects report less happy than not.</p>
 						<h3>Ever daydreamed through a green light or asked someone for the time only to have zoned out by the time they tell you the answer? So why do we do it?</h3>
@@ -346,7 +422,9 @@
 					{ src: 'plugin/markdown/marked.js' },
 					{ src: 'plugin/markdown/markdown.js' },
 					{ src: 'plugin/notes/notes.js', async: true },
-					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+					// { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+					{ src: 'plugins/prism/prism.js'}
+			
 				]
 			});
 		</script>

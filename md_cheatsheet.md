@@ -31,7 +31,7 @@ Strikethrough uses two tildes. ~~Scratch this.~~
    Some text that should be aligned with the above item.
 
 * Unordered list can use asterisks
-- Or minuses
+  - Or minuses
 + Or pluses
 
 [I'm an inline-style link](https://www.google.com)
