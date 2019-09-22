@@ -344,7 +344,9 @@ body {
   margin: 0;
   padding: 0; }
   .reveal section.code pre {
-    box-shadow: none; }
+    box-shadow: none;
+    width: 100%;
+    margin: 0; }
     .reveal section.code pre .hljs, .reveal section.code pre .csharp {
       max-height: none; }
 

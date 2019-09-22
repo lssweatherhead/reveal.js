@@ -11,8 +11,8 @@
 		<link rel="stylesheet" href="css/theme/custom.css">
 
 		<!-- Theme used for syntax highlighting of code -->
-		<!-- <link rel="stylesheet" href="lib/css/atom-one-dark.css"> -->
-		<link href="lib/css/prism.css" rel="stylesheet" />
+		<link rel="stylesheet" href="lib/css/atom-one-dark.css">
+		<!-- <link href="lib/css/prism.css" rel="stylesheet" /> -->
 
 		<!-- Printing and PDF exports -->
 		<script>
@@ -137,26 +137,26 @@ public class Variant
 					</aside>
 				</section>
 
-				<section>
-					<h3>Add new graph types and set our data shape</h3>>
-					<pre><code class="hljs" data-trim contenteditable>
-public class CarbonFootprintCategoryGraphType : ObjectGraphType<ItemType>
+				<section class="code">
+					<h3>Add new graph types and set our data shape</h3>
+					<pre><code class="csharp" data-trim contenteditable data-noescape>
+public class CarbonFootprintCategoryGraphType : ObjectGraphType&lt;ItemType&gt;
 {
 	public CarbonFootprintCategoryGraphType()
 	{
 		Name = "CarbonFootprintCategory";
 
-		Field<NonNullGraphType<IntGraphType>>(
+		Field&lt;NonNullGraphType&lt;IntGraphType&gt;(
 			"id",
 			resolve: context => context.Source.Id
 		);
-		Field<NonNullGraphType<StringGraphType>>(
+		Field&lt;NonNullGraphType&lt;StringGraphType&gt;(
 			"name",
 			resolve: context => context.Source.Name
 		);
-		Field<NonNullGraphType<ListGraphType<CarbonFootprintItemGraphType>>>(
+		Field&lt;NonNullGraphType&lt;ListGraphType&lt;CarbonFootprintItemGraphType&gt;&gt;&gt;(
 			"items",
-			resolve: context => ApplicationContext.Current.DatabaseContext.GetItemsByCategoryId(context.Source.Id)
+			resolve: context => DatabaseContext.GetItemsByCategoryId(context.Source.Id)
 		);
 	}
 }</code></pre>
@@ -168,40 +168,39 @@ public class CarbonFootprintCategoryGraphType : ObjectGraphType<ItemType>
 					</aside>
 				</section>
 
-				<section>
-					<h3>CarbonFootprintItemGraphType.cs</h3>
-<pre><code class="language-csharp">
-public class CarbonFootprintItemGraphType: ObjectGraphType<Item>
+				<section class="code">
+<pre><code class="csharp" data-trim contenteditable data-noescape>
+public class CarbonFootprintItemGraphType: ObjectGraphType&lt;Item&gt;
 {
 	public CarbonFootprintItemGraphType()
 	{
 		Name = "CarbonFootprintItem";
-		Field<NonNullGraphType<IntGraphType>(
+		Field&lt;NonNullGraphType&lt;IntGraphType&gt;&gt;(
 			"id",
 			resolve: context => context.Source.Id
 		);
-		Field<NonNullGraphType<StringGraphType>(
+		Field&lt;NonNullGraphType&lt;StringGraphType&gt;&gt;(
 			"name",
 			resolve: context => context.Source.ItemName
 		);
-		Field<NonNullGraphType<CarbonFootprintCategoryGraphType>(
+		Field&lt;NonNullGraphType&lt;CarbonFootprintCategoryGraphType&gt;&gt;(
 			"category",
-			resolve: context => ApplicationContext.Current.DatabaseContext.GetCategoryById(context.Source.ItemType)
+			resolve: context => DatabaseContext.GetCategoryById(context.Source.ItemType)
 		);
 
-		Field<NonNullGraphType<FloatGraphType>(
+		Field&lt;NonNullGraphType&lt;FloatGraphType&gt;&gt;(
 			"minCarbonDioxideEquivalentInGrams",
 			resolve: context => context.Source.MinCarbonDioxideEquivalent
 		);
 
-		Field<FloatGraphType>(
+		Field&lt;FloatGraphType&gt;(
 			"maxCarbonDioxideEquivalentInGrams",
 			resolve: context => context.Source.MaxCarbonDioxideEquivalent
 		);
 
-		Field<NonNullGraphType<ListGraphType<CarbonFootprintVariantGraphType>>(
+		Field&lt;NonNullGraphType&lt;ListGraphType&lt;CarbonFootprintVariantGraphType&gt;&gt;&gt;(
 			"variants",
-			resolve: context => ApplicationContext.Current.DatabaseContext.GetVariantsByItemId(context.Source.Id)
+			resolve: context => DatabaseContext.GetVariantsByItemId(context.Source.Id)
 		);
 	}
 }</code></pre>
@@ -422,8 +421,8 @@ public class CarbonFootprintItemGraphType: ObjectGraphType<Item>
 					{ src: 'plugin/markdown/marked.js' },
 					{ src: 'plugin/markdown/markdown.js' },
 					{ src: 'plugin/notes/notes.js', async: true },
-					// { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
-					{ src: 'plugins/prism/prism.js'}
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+					// { src: 'plugins/prism/prism.js'}
 			
 				]
 			});
