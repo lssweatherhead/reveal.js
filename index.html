@@ -127,6 +127,18 @@ public class Variant
 	public double CarbonDioxideEquivalent { get; set; }
 }</code></pre>
 					<aside class="notes">
+						These are the POCOs we have on the C# side
+					</aside>
+				</section>
+
+				<section>
+					<h3>What's the plan?</h3>
+					<ol>
+						<li>Construct data shapes</li>
+						<li>Construct querying functionality</li>
+						<li>Return data from the application</li>
+					</ol>
+					<aside data-markdown class="notes">
 						This is the data that we want to able to access through GraphQL, so now we need to look at the steps that will allow that to happen.
 
 						1. GraphQL essentially works using a data "shape", so the first step is to set up graph types that will inform the application what our data structure looks like
@@ -138,7 +150,7 @@ public class Variant
 				</section>
 
 				<section class="code">
-					<h3>Add new graph types and set our data shape</h3>
+					<h3>1. Add new graph types and set our data shape</h3>
 					<pre><code class="csharp" data-trim contenteditable data-noescape>
 public class CarbonFootprintCategoryGraphType : ObjectGraphType&lt;ItemType&gt;
 {
@@ -205,146 +217,132 @@ public class CarbonFootprintItemGraphType: ObjectGraphType&lt;Item&gt;
 	}
 }</code></pre>
 					<aside class="notes" data-markdown>
-						<p>Your mind is like a town - when focused everyone is in the town square, but when wandering activity is distributed. Default mode network.</p>
-						<p>Benefits of mindfulness are well documented. + shrunken amygdala + enlarged prefrontal cortex. During mind wandering, subjects report less happy than not.</p>
-						<h3>Ever daydreamed through a green light or asked someone for the time only to have zoned out by the time they tell you the answer? So why do we do it?</h3>
-						<p>Baird & Smallwood conducted a study - tasks without a working memory load elicit more mind wandering than tasks with a working memory load... [Unusual Use Tasks] Incubation++</p>
-						<ul>
-							<li>attentional cycling - honing mental juggling skills</li>
-							<li>dishabituation - refreshed attention, brain responds to change</li>
-							<li>relief from boredom - ability to persevere with tedious but necessary tasks</li> 
-						</ul>
-						
+						Again this is just to illustrate the relationships between the data
 					</aside>
 				</section>
-				<!-- END TIRED SLIDES -->
+				
+				<section class="code">
+					<h3>2. Add new query structures</h3>
+<pre><code class="csharp" data-trim contenteditable data-noescape>
+public class CarbonFootprintQueryGraphType : ObjectGraphType
+{
+	public CarbonFootprintQueryGraphType(IEnumerable&lt;IGraphType> carbonFootprintTypes)
+	{
+		Name = "CarbonFootprintQuery";
 
-				<!-- OPPRESSED SLIDES -->
-				<section>
-					<div class="flex end between">
-						<h2>Oppressed</h2>
-						<div style="display: inline-block;" class="fragment fade-left">
-							<img src="https://media.giphy.com/media/eDbiPmmBUSlwY/giphy.gif" />
-						</div>
-					</div>
+		Field&lt;NonNullGraphType&lt;CarbonFootprintCategoryGraphType>>()
+			.Name("byId")
+			.Argument&lt;NonNullGraphType<IdGraphType>>("id", "The category id")
+			.Resolve(context =>
+			{
+				var userContext = (UmbracoGraphQLContext)context.UserContext;
+				var id = context.GetArgument&lt;int>("id");
 
-					<aside class="notes">
-						<h3>Why might we be feeling oppressed?</h3>
-						<ul>
-							<li>trying to hold onto too many things</li>
-							<li>too many (conflicting) responsibilities</li>
-							<li>pursuit feels futile - will we ever succeed?</li>
-						</ul>
-					</aside>
-				</section>
+				return userContext.DatabaseContext.GetCategoryById(id);
+			});
 
-				<section>
-					<div class="flex center between">
-						<h2>Too many things</h2>
-						<img class="width-35" src="/images/interrupted.PNG" />						
-					</div>
-					<div class="align-left reference">
-						<a class="ref" href="https://heeris.id.au/2013/this-is-why-you-shouldnt-interrupt-a-programmer/">Source: Heeris, J. (2013). This Is Why You Shouldn’t Interrupt a Programmer - The Slightly Disgruntled Scientist. [online] Heeris.id.au. Available at: https://heeris.id.au/2013/this-is-why-you-shouldnt-interrupt-a-programmer/
-						</a>
-					</div>
+		Field&lt;NonNullGraphType&lt;CarbonFootprintCategoryGraphType>>()
+			.Name("byCategoryName")
+			.Argument&lt;NonNullGraphType<StringGraphType>>("category", "The category name")
+			.Resolve(context =>
+			{
+				var userContext = (UmbracoGraphQLContext)context.UserContext;
+				var name = context.GetArgument&lt;string>("category");
 
-					<aside class="notes">
-						<h3>Brain processes around 11 million bits - aware of ~40 - fit ~4 items into working memory</h3>
-						<p>Working memory can "stack-overflow". 1-7 seconds life.</p>
-						<p>Gets encoded as chunks</p>
-						<p>Like trying to write in coffee cup foam</p>
-						<p>Stressed/anxious? Take the unrelated items out of your working memory and write them down.</p>
+				return userContext.DatabaseContext.GetCategoryByName(name);
+			});
+	}
+}</code></pre>
+					<aside class="notes" data-markdown>
+						Now that we have our graph shapes, we need to tell GraphQL how we want to access this data. As an example we are going to expose two query types: 
+						- byId which gets an ItemType category by its ID
+						- byCategoryName which retrieves an ItemType category by name.
 					</aside>
 				</section>
 
-				<section>
-					<h2 class="">Who's monkey is that?</h2>
-					<div style="display: inline-block;" class="fragment fade-left">
-						<img class="width-80" src="/images/monkeys.png" />
-					</div>
+				<section class="code">
+					<h3>Umbraco Query</h3>
+<pre><code class="csharp" data-trim contenteditable data-noescape>
+public class UmbracoQuery : ObjectGraphType
+{
+	public UmbracoQuery(IEnumerable&lt;IGraphType> documentTypes, IEnumerable&lt;IGraphType> carbonFootprintingData)
+	{
+		Field&lt;PublishedContentQueryGraphType>()
+			.Name("content")
+			.Resolve(context => context.ReturnType)
+			.Type(new NonNullGraphType(new PublishedContentQueryGraphType(documentTypes)));
 
-					<aside class="notes">
-						<h3>Who's got the monkey? Article by William Oncken Jr & Donald Wass</h3>
-						<p>I have: learning, coding, testing, scoping, mentoring. I look after: time tracking</p>
-						<p>Sometimes I foster UX, requirements, speaking, open-source monkeys</p>
-						<p>Life monkeys must sometimes take priority</p>
-						<p>Be aware of which monkeys you are looking after</p>
-					</aside>
-				</section>
-				<!-- END OPPRESSED SLIDES -->
+		<mark>Field&lt;CarbonFootprintQueryGraphType>()</mark>
+			<mark>.Name("carbonFootprintItems")</mark>
+			<mark>.Resolve(context => context.ReturnType)</mark>
+			<mark>.Type(new NonNullGraphType(new CarbonFootprintQueryGraphType(carbonFootprintingData)));</mark>
+	}
+}</code></pre>
 
-				<!-- CONFUSED SLIDES -->
-				<section>
-					<div class="flex end between">
-						<div style="display: inline-block;" class="fragment fade-left">
-							<img src="https://media.giphy.com/media/rAm0u2k17rM3e/giphy.gif" />
-						</div>
-						<h2>Confused</h2>					
-					</div>
-
-					<aside class="notes">
-						<h3>Why might we be confused?</h3>
-						<ul>
-							<li>Don't know the next steps</li>
-							<li>Don't know what's missing</li>
-							<li>The story doesn't make any sense</li>
-						</ul>
+					<aside class="notes" data-markdown>
+						Now that we have our graph shapes, we need to tell GraphQL how we want to access this data. As an example we are going to expose two query types: 
+						- byId which gets an ItemType category by its ID
+						- byCategoryName which retrieves an ItemType category by name.
 					</aside>
 				</section>
 
-				<section>				
-					<div class="fragment fade-left invert">
-						<h1>Ask for help</h1>
-					</div>
+				<section class="code">
+					<h3>GraphQL query structure</h3>
+<pre><code class="csharp" data-trim contenteditable data-noescape>
+{
+	carbonFootprintItems {
+		byCategoryName(category: "food") {
+		name
+		items {
+			name
+			variants {
+			name
+			carbonDioxideEquivalentInGrams
+			}
+		}
+		}
+	}
+}</code></pre>
 
-					<aside class="notes">
-						<h3>Your needs are not obvious. Can try hovering and hoping, but not super effective</h3>
-						<p>Heidi Grant in her TED Talk outlines...</p>
-						<ul>
-							<li>be concise</li>
-							<li>be realistic</li>
-							<li>avoid too many apologies/disclaimers</li>
-							<li>30x more likely to get help if you ask in person</li>
-							<li>follow up after</li>
-						</ul>
+					<aside class="notes" data-markdown>
+						This data "shape" allows us to make queries that are in some variation of the following structure
 					</aside>
 				</section>
 
-				<section data-background="/images/story.jpeg">
-					<h2 class="invert bg">The flawed story</h2>
+				<section class="code">
+					<h3>3. Extend existing schema</h3>
+<pre><code class="csharp" data-trim contenteditable data-noescape>
+public class UmbracoSchema : global::GraphQL.Types.Schema
+{
+	public UmbracoSchema(
+		IContentTypeService contentTypeService, IMemberTypeService memberTypeService,
+		DatabaseContext dbContext, GraphQLServerOptions options)
+	{
+		// These are the Umbraco content schema graph types
+		var documentTypes = CreateGraphTypes(contentTypeService.GetAllContentTypes(), PublishedItemType.Content).ToList();
+		var mediaTypes = CreateGraphTypes(contentTypeService.GetAllMediaTypes(), PublishedItemType.Media).ToList();
+		RegisterTypes(documentTypes.ToArray());
+		RegisterTypes(mediaTypes.ToArray());
 
-					<aside class="notes">
-						<h3>Sometimes flawed stories delight us - magic! But not usually in programming.</h3>
-						<p>Why is story so important?</p>
-						<p>In Yuval Noah Harari's book - Sapiens - he talks about an individual being able to "keep up" with ~150 other people, and posits that we are only able to successfully cooperate as a species through the means of shared fiction</p>
-						<p>We are built for story, it is in everything we do, think and want. A healthy mind is the "central protagonist" in their own hero epic</p>
-						<p>Play to your brain's strengths:</p>
-						<ul>
-							<li>Speak/write your problem out, because by sequencing it you are removing it from your RAM and ordering it. Can see your own flaws. Rubber duck debugging!</li>
-							<li>Also, by speaking you are <b>hearing</b> and by writing you are <b>seeing</b>. Brain is like a city.</li>
-						</ul>
+		// Custom data schema graph types!
+		<mark>var carbonFootprintTypes = new List<IGraphType>();</mark>
+		<mark>var categories = dbContext.GetAllCategories();</mark>
+
+		<mark>foreach (var category in categories)</mark>
+		<mark>{</mark>
+			<mark>graphTypes.Add(new CarbonFootprintGraphTypeMap(dbContext, category));</mark>
+		<mark>}</mark>
+
+		// Register our graph types with GraphQL
+		<mark>RegisterTypes(carbonFootprintTypes.ToArray());</mark>
+
+		Query = new UmbracoQuery(documentTypes, carbonFootprintTypes);
+	}
+}</code></pre>
+					<aside class="notes" data-markdown>
+						We are looping through all of our data categories and using them to create the IEnumerable&lt;IGraphType> carbonFootprintingData argument that was referenced in the earlier snippet.
 					</aside>
 				</section>
-
-				<!-- <section>
-					<h2>Lacking context</h2>
-					<div style="display: inline-block;" class="fragment fade-left">
-						<img class="width-50" src="/images/context.PNG" />
-					</div>
-
-					<aside class="notes">
-						<h3>Much better than technology at understanding social/story-based context</h3>
-						<p>Brain is lazy - when we learn about a problem space we tip over from building a knowledge model into defending/confirming/denying our existing models</p>
-						<p>Challenge your biases!</p>
-						<p>Give your brain more to work with: David Eagleman & Anthony Brandt in their book The Runaway Species talk about the 3 B's of creativity...</p>
-						<ul>
-							<li>bending: adapt what is already out there</li>
-							<li>breaking: reductionism - boil it down to its component parts</li>
-							<li>blending: combine sources or find related/similar problem spaces</li>
-						</ul>
-					</aside>
-				</section> -->
-				<!-- END CONFUSED SLIDES -->
 
 				<section style>
 					<div class="flex bib">
