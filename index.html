@@ -67,7 +67,7 @@
 						<li>It's a data graph</li>
 						<li>Shifts the parameter requirements from the server-side code to the front-end</li>
 						<li>Allows easy access to filtering, sorting, paging etc</li>
-						<li>Pete Duncanson, OffRoadCode & Rasmus Pedersen have produced the awesome Umbraco GraphQL community package</li>
+						<li>Pete Duncanson, Offroadcode & Rasmus Pedersen have produced the awesome Umbraco GraphQL community package</li>
 					</ul>
 
 					<aside class="notes" data-markdown>
@@ -90,7 +90,7 @@
 					<aside class="notes" data-markdown>
 						* We will be looking at using Umbraco (v7) and GraphQL together to map and resolve custom PetaPoco data from a bespoke dashboard and surfacing it as part of the exposed GraphQL API.
 						* The structure that we have here is fairly simple for the sake of demonstration. We have:
-						- A `ItemType` category e.g. "Food"
+						- An `ItemType` category e.g. "Food"
 						  - Which has one or more `Item` e.g. "1 x mug of tea or coffee"
 							- Which has one or more `Variant` e.g. "1 x mug of tea or coffee with milk, boiling only what you need"
 						* Each `Variant` is tagged with an approximate cost in **carbon dioxide equivalent (CO<sub>2</sub>e)** which is essentially a shorthand for expressing all of the greenhouse gases that an activity or item emits in terms of the equivalent amount of carbon dioxide. This loses some accuracy but makes it slightly easier to make comparisons!
@@ -174,9 +174,9 @@ public class CarbonFootprintCategoryGraphType : ObjectGraphType&lt;ItemType&gt;
 }</code></pre>
 
 					<aside class="notes" data-markdown>
-							So there are a few things going on here:
-							- We are inheriting an `ObjectGraphType` of our data class and this is used as the `context.Source` when mapping from the properties to the built in GraphQL [Schema Types](https://graphql-dotnet.github.io/docs/getting-started/schema-types)
-							- We are declaring an "items" property that returns a `ListGraphType` (a list) of `CarbonFootprintItemGraphType` objects. This is the next graph type that we will need to define.
+						So there are a few things going on here:
+						- We are inheriting an `ObjectGraphType` of our data class and this is used as the `context.Source` when mapping from the properties to the built in GraphQL [Schema Types](https://graphql-dotnet.github.io/docs/getting-started/schema-types)
+						- We are declaring an "items" property that returns a `ListGraphType` (a list) of `CarbonFootprintItemGraphType` objects. This is the next graph type that we will need to define.
 					</aside>
 				</section>
 
@@ -274,15 +274,13 @@ public class UmbracoQuery : ObjectGraphType
 
 		<mark>Field&lt;CarbonFootprintQueryGraphType>()</mark>
 			<mark>.Name("carbonFootprintItems")</mark>
-			<mark>.Resolve(context => context.ReturnType)</mark>
+			<mark>.Resolve(context =&gt; context.ReturnType)</mark>
 			<mark>.Type(new NonNullGraphType(new CarbonFootprintQueryGraphType(carbonFootprintingData)));</mark>
 	}
 }</code></pre>
 
 					<aside class="notes" data-markdown>
-						Now that we have our graph shapes, we need to tell GraphQL how we want to access this data. As an example we are going to expose two query types: 
-						- byId which gets an ItemType category by its ID
-						- byCategoryName which retrieves an ItemType category by name.
+						Extending the UmbracoQuery object to surface our custom data alongside the umbraco content
 					</aside>
 				</section>
 
@@ -292,20 +290,20 @@ public class UmbracoQuery : ObjectGraphType
 {
 	carbonFootprintItems {
 		byCategoryName(category: "food") {
-		name
-		items {
 			name
-			variants {
-			name
-			carbonDioxideEquivalentInGrams
+			items {
+				name
+				variants {
+					name
+					carbonDioxideEquivalentInGrams
+				}
 			}
-		}
 		}
 	}
 }</code></pre>
 
 					<aside class="notes" data-markdown>
-						This data "shape" allows us to make queries that are in some variation of the following structure
+						This data "shape" allows us to make queries that return this data for category type "Food"
 					</aside>
 				</section>
 
@@ -325,12 +323,12 @@ public class UmbracoSchema : global::GraphQL.Types.Schema
 		RegisterTypes(mediaTypes.ToArray());
 
 		// Custom data schema graph types!
-		<mark>var carbonFootprintTypes = new List<IGraphType>();</mark>
+		<mark>var carbonFootprintTypes = new List&lt;IGraphType&gt;();</mark>
 		<mark>var categories = dbContext.GetAllCategories();</mark>
 
 		<mark>foreach (var category in categories)</mark>
 		<mark>{</mark>
-			<mark>graphTypes.Add(new CarbonFootprintGraphTypeMap(dbContext, category));</mark>
+			<mark>carbonFootprintTypes.Add(new CarbonFootprintGraphTypeMap(dbContext, category));</mark>
 		<mark>}</mark>
 
 		// Register our graph types with GraphQL
@@ -340,20 +338,99 @@ public class UmbracoSchema : global::GraphQL.Types.Schema
 	}
 }</code></pre>
 					<aside class="notes" data-markdown>
-						We are looping through all of our data categories and using them to create the IEnumerable&lt;IGraphType> carbonFootprintingData argument that was referenced in the earlier snippet.
+						We are looping through all of our data categories and using them to create the IEnumerable&lt;IGraphType&gt; carbonFootprintingData argument
 					</aside>
 				</section>
 
 				<section>
-					<h1>Sample GQL query</h1>
+					<h3>Sample GQL query</h3>
+<pre><code data-trim contenteditable data-noescape>{
+	carbonFootprintItems {
+		byCategoryName(category: "activities") {
+			name
+			items {
+				name
+				maxCarbonDioxideEquivalentInGrams
+				variants {
+					name
+					carbonDioxideEquivalentInGrams
+				}
+			}
+		}
+	}
+}</code></pre>
+	<aside class="notes" data-markdown>
+		So if we were to run this sample query now we should get a set of results associated with the Activities category
+	</aside>
+				</section>
+
+				<section class="code">
+	<pre><code>
+{
+  "data": {
+    "carbonFootprintItems": {
+      "byCategoryName": {
+        "name": "Activities",
+        "items":
+        [
+          {
+            "name": "Spending £1",
+            "maxCarbonDioxideEquivalentInGrams": 10000,
+            "variants":
+            [
+              {
+                "name": "Spending £1 on a well-executed rainforest preservation project",
+                "carbonDioxideEquivalentInGrams": -330000
+              },
+              {
+                "name": "Spending £1 on solar panels",
+                "carbonDioxideEquivalentInGrams": -3000
+              },
+              {
+                "name": "Spending £1 on financial, legal or professional advice",
+				"carbonDioxideEquivalentInGrams": 160
+              },
+              {
+                "name": "Spending £1 on flights",
+				"carbonDioxideEquivalentInGrams": 4600
+              },
+              {
+                "name": "Spending £1 on budget flights",
+                "carbonDioxideEquivalentInGrams": 10000
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}</code></pre>
+				</section>
+
+				<section data-background="#9e1b3d">
+					<h1 class="invert">Our Umbraco GraphQL for V8</h1>
+
+					<aside data-markdown>
+						Soon to be released
+						* swaps out graphiql for the GraphQL playground
+						* bundles sample custom data structures WITH sorting, ordering
+						* cultures as a query variable
+					</aside>
 				</section>
 
 				<section>
-					<h3>Community GraphQL v8 - tweet?</h3>
+					<img src="/images/badbananas.PNG" />
 				</section>
 
 				<section>
-					<h3>Github links, twitter etc</h3>
+					<h1>Thank you!</h1>
+					<ul>
+						<li><a href="https://github.com/rasmusjp/umbraco-graphql">Our Umbraco GraphQL (V7)</a></li>
+						<li><a href="https://github.com/lssweatherhead/umbraco-graphql/tree/BLG-2-Custom-Data-Section">Demo branch</a></li>
+						<li><a href="https://skrift.io/articles/archive/saving-the-world-with-umbraco-and-graphql/">September Skrift Article</a></li>
+						<li><a href="https://graphql-dotnet.github.io/docs/getting-started/introduction/">Getting started with GraphQL .NET</a></li>
+					</ul>
+					<h3 style="color:deepskyblue; margin-top: 20px;">@lssweatherhead</h3>
 				</section>
 			</div>
 		</div>
