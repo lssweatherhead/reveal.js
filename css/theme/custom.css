@@ -371,10 +371,13 @@ body {
     align-items: flex-end; }
   .reveal section .flex.start {
     align-items: flex-start; }
-  .reveal section .flex.space {
+  .reveal section .flex.around {
     justify-content: space-around; }
   .reveal section .flex.between {
     justify-content: space-between; }
+  .reveal section .flex.full-width {
+    margin-right: calc(-40vw / 2 + 500px / 2);
+    margin-left: calc(-40vw / 2 + 500px / 2); }
   .reveal section .flex .fragment {
     margin: 0 5rem 1rem; }
 

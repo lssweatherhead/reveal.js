@@ -213,12 +213,17 @@
             align-items: flex-start;
         }
 
-        &.space {
+        &.around {
             justify-content: space-around;
         }
 
         &.between {
             justify-content: space-between;
+        }
+
+        &.full-width {
+            margin-right: calc(-40vw / 2 + 500px / 2);
+            margin-left: calc(-40vw / 2 + 500px / 2);
         }
 
         .fragment {
