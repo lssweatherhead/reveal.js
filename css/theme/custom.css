@@ -376,10 +376,17 @@ body {
   .reveal section .flex.between {
     justify-content: space-between; }
   .reveal section .flex.full-width {
-    margin-right: calc(-40vw / 2 + 500px / 2);
+    margin-right: calc(-40vw / 2 + 450px / 2);
     margin-left: calc(-40vw / 2 + 700px / 2); }
   .reveal section .flex .fragment {
     margin: 0 5rem 1rem; }
 
+.reveal section .show.full-width {
+  margin-right: calc(-40vw / 2 + 500px / 2);
+  margin-left: calc(-40vw / 2 + 500px / 2); }
+
 .reveal section .align-left {
   text-align: left; }
+
+.reveal section .align-right {
+  text-align: right; }
