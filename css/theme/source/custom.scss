@@ -126,6 +126,7 @@
     .reference {
         margin-top: 1em;
         line-height: 0.5em;
+        //font-size: 0.5em;
     }
 
     .bib {
@@ -235,6 +236,14 @@
         &.full-width {
             margin-right: calc(-40vw / 2 + 500px / 2);
             margin-left: calc(-40vw / 2 + 500px / 2);
+        }
+    }
+
+    .abs {
+        &.full {
+            position: absolute;
+            top:0;
+            left:0;
         }
     }
 
